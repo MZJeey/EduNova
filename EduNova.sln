@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNova.web", "EduNova.web\EduNova.web.csproj", "{7F53789F-901C-485C-B4B1-2C0DA17067CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C2E5B71-A422-49C3-9030-F5347BAE44D7}
+	EndGlobalSection
+EndGlobal
