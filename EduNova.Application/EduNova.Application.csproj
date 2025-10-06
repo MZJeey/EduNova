@@ -14,4 +14,8 @@
     <ProjectReference Include="..\EduNova.Infraestructure\EduNova.Infraestructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Profiles\" />
+  </ItemGroup>
+
 </Project>
