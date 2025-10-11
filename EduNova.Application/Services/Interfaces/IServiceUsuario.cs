@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EduNova.Application.Services.Interfaces
 {
-    public interface IServicesUsuario
+    public interface IServiceUsuario
     {
         Task<ICollection<UsuarioDTO>> FindByDescriptionAsync(string description);
         Task<ICollection<UsuarioDTO>> ListAsync();

@@ -10,10 +10,10 @@ namespace EduNova.Application.DTOs
     {
         public int IdUsuario { get; set; }
         public string Nombre { get; set; } = null!;
-        public string Apellido { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string Rol { get; set; } = null!;
+        public string Apellidos { get; set; } = null!;
+        public string Correo { get; set; } = null!;
+        public string Clave { get; set; } = null!;
+        public int Rol { get; set; } 
         public bool Estado { get; set; }
     }
 }

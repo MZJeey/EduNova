@@ -1,4 +1,12 @@
+using EduNova.Application.DTOs;
+using EduNova.Application.Profiles;
+using EduNova.Application.Services.Implementations;
+using EduNova.Application.Services.Interfaces;
+using EduNova.Infraestructure.Data;
+using EduNova.Infraestructure.Repository.Implementations;
+using EduNova.Infraestructure.Repository.Interfaces;
 using EduNova.web.Middleware;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using System.Text;
@@ -8,12 +16,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Repositorios
+builder.Services.AddTransient<IRepositoryUsuario,RepositoryUsuario>();
 
+//servicios
+builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 
+//Configuracion AutoMapper
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<UsuarioProfile>();
+});
 
+//Configuracion conexion a la base de datos
+builder.Services.AddDbContext<eduNovaContext>(options =>
+{
+    // it read appsettings.json file 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDataBase"));
+    if (builder.Environment.IsDevelopment())
+        options.EnableSensitiveDataLogging();
+});
 
-
-
+//builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 
 //***********************
 //Configuración Serilog

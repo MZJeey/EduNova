@@ -7,10 +7,10 @@ namespace EduNova.web.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly IServicesUsuario _serviceUsuario;
-        private readonly ILogger<UsuarioController> _logger;
-        private readonly eduNovaContext _context;
-         public UsuarioController(IServicesUsuario serviceUsuario)
+        private readonly IServiceUsuario _serviceUsuario;
+       // private readonly ILogger<UsuarioController> _logger;
+        //private readonly eduNovaContext _context;
+         public UsuarioController(IServiceUsuario serviceUsuario)
         {
             _serviceUsuario=serviceUsuario;
         }
