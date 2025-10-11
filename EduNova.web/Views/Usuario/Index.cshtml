@@ -1,71 +1,165 @@
 ﻿@model IEnumerable<EduNova.Application.DTOs.UsuarioDTO>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestión de Usuarios";
 }
 
-<h1>Index</h1>
+<style>
+    .main-content-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUsuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellidos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Clave)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rol)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellidos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+    .search-box {
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+
+    .search-input {
+        padding-left: 40px;
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .status-badge {
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+    }
+
+    .status-active {
+        background-color: rgba(40, 167, 69, 0.2);
+        color: #28a745;
+    }
+
+    .status-inactive {
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+    }
+
+    .btn-action {
+        border: none;
+        background: none;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s;
+    }
+
+    .btn-edit:hover {
+        background-color: rgba(19, 164, 236, 0.1);
+        color: var(--primary);
+    }
+
+    .btn-delete:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+
+    .table-custom th {
+        background-color: #f6f7f8;
+        border-bottom: 1px solid #dee2e6;
+        font-weight: 600;
+        color: #212529;
+    }
+
+    .table-custom td {
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+</style>
+
+<!-- SOLO el contenido específico de la página -->
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+       
+        <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Create">
+            <i class="bi bi-plus-circle"></i>
+            <span>Añadir Usuario</span>
+        </a>
+    </div>
+
+    <!-- Search Box -->
+    <div class="mb-4">
+        <div class="search-box">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="form-control search-input" placeholder="Buscar usuarios por nombre, ID o correo...">
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="main-content-card">
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3">Nombre</th>
+                        <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Correo</th>
+                        <th class="px-4 py-3">Rol</th>
+                        <th class="px-4 py-3">Estado</th>
+                        <th class="px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="px-4 py-3 fw-medium">
+                                @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellidos)
+                            </td>
+                            <td class="px-4 py-3 text-muted">
+                                @Html.DisplayFor(modelItem => item.IdUsuario)
+                            </td>
+                            <td class="px-4 py-3 text-muted">
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td class="px-4 py-3 text-muted">
+                                @Html.DisplayFor(modelItem => item.Rol)
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="status-badge @(item.Estado ? "status-active" : "status-inactive")">
+                                    @(item.Estado ? "Activo" : "Inactivo")
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-action btn-edit" asp-action="Edit" asp-route-id="@item.IdUsuario">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-action btn-delete" asp-action="Delete" asp-route-id="@item.IdUsuario">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para búsqueda en tiempo real
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
