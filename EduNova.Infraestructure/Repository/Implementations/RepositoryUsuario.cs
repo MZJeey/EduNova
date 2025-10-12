@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EduNova.Infraestructure.Repository.Implementations
 {
-    public class RepositoryUsuario: IRepositoryUsuario
+    public class RepositoryUsuario : IRepositoryUsuario
     {
         private readonly eduNovaContext _context;
         public RepositoryUsuario(eduNovaContext context)
@@ -20,8 +20,8 @@ namespace EduNova.Infraestructure.Repository.Implementations
             _context = context;
         }
 
-       
-       
+
+
 
         //listar usuarios
 
@@ -41,7 +41,7 @@ namespace EduNova.Infraestructure.Repository.Implementations
             _context.Remove(@object);
             _context.SaveChanges();
         }
-      
+
         //encontrar usuario por id
         public async Task<Usuario?> FindByIdAsync(int id)
         {

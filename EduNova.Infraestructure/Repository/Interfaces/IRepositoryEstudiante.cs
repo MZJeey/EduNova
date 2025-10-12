@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace EduNova.Infraestructure.Repository.Interfaces
 {
-    public interface IRepositoryUsuario
+    public interface IRepositoryEstudiante
     {
-        Task<ICollection<Usuario>> ListAsync();
+        Task<ICollection<Estudiante>> ListAsync();
 
-        Task<string> AddAsync(Usuario entity);
+        Task<string> AddAsync(Estudiante entity);
         Task DeleteAsync(int id);
-        Task<Usuario?> FindByIdAsync(int id);
+        Task<Estudiante?> FindByIdAsync(int id);
         Task UpdateAsync();
-
     }
 }

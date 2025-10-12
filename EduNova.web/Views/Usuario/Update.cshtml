@@ -1,0 +1,279 @@
+﻿@model EduNova.Application.DTOs.UsuarioDTO
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<style>
+    /* Contenedor principal con espacio para el footer */
+    .content-container {
+        min-height: calc(100vh - 200px);
+        padding-bottom: 4rem; /* Espacio extra para el footer */
+        margin-bottom: 2rem;
+    }
+
+    .update-card {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: none;
+        margin-bottom: 2rem; /* Espacio adicional */
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, #13a4ec, #0d8bc7);
+        color: white;
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 1.5rem;
+    }
+
+    .form-label-custom {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control-custom {
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        transition: all 0.2s;
+    }
+
+        .form-control-custom:focus {
+            border-color: #13a4ec;
+            box-shadow: 0 0 0 0.2rem rgba(19, 164, 236, 0.25);
+        }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #13a4ec, #0d8bc7);
+        border: none;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #0d8bc7, #13a4ec);
+            transform: translateY(-1px);
+        }
+
+    .form-section {
+        border-bottom: 1px solid #e9ecef;
+        padding: 1.5rem 0;
+    }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+    .status-badge {
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .status-active {
+        background-color: rgba(40, 167, 69, 0.15);
+        color: #28a745;
+        border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .status-inactive {
+        background-color: rgba(220, 53, 69, 0.15);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    /* Asegurar que el body tenga suficiente espacio */
+    body {
+        padding-bottom: 50px !important;
+    }
+</style>
+
+<div class="container-fluid content-container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 fw-bold text-dark">Editar Usuario</h1>
+        <a class="btn btn-outline-secondary" asp-action="Index">
+            <i class="bi bi-arrow-left me-1"></i> Volver a la lista
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="card update-card">
+        <!-- Header -->
+        <div class="form-header">
+            <div class="d-flex align-items-center">
+                <div class="user-avatar me-3">
+                    <i class="bi bi-person-gear text-white" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h2 class="h4 mb-1">@Model.Nombre @Model.Apellidos</h2>
+                    <p class="mb-0 opacity-75">ID: @Model.IdUsuario</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="Update" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="IdUsuario" />
+
+                <!-- Información Personal -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-primary mb-3">
+                        <i class="bi bi-person-vcard me-2"></i>Información Personal
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Nombre" class="form-label-custom">Nombre</label>
+                                <input asp-for="Nombre" class="form-control form-control-custom" />
+                                <span asp-validation-for="Nombre" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Apellidos" class="form-label-custom">Apellidos</label>
+                                <input asp-for="Apellidos" class="form-control form-control-custom" />
+                                <span asp-validation-for="Apellidos" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de Cuenta -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-primary mb-3">
+                        <i class="bi bi-envelope me-2"></i>Información de Cuenta
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Correo" class="form-label-custom">Correo Electrónico</label>
+                                <input asp-for="Correo" class="form-control form-control-custom" />
+                                <span asp-validation-for="Correo" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Clave" class="form-label-custom">Contraseña</label>
+                                <input asp-for="Clave" type="password" class="form-control form-control-custom" />
+                                <span asp-validation-for="Clave" class="text-danger small"></span>
+                                <small class="form-text text-muted">Dejar en blanco para mantener la contraseña actual</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuración de Rol y Estado -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-primary mb-3">
+                        <i class="bi bi-gear me-2"></i>Configuración
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="idRol" class="form-label-custom">Rol</label>
+                                <select asp-for="idRol" class="form-control form-control-custom">
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Docente</option>
+                                    <option value="3">Técnico</option>
+                                   
+                                </select>
+                                <span asp-validation-for="idRol" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label-custom d-block">Estado Actual</label>
+                                <span class="status-badge @(Model.Estado ? "status-active" : "status-inactive")">
+                                    <i class="bi @(Model.Estado ? "bi-check-circle" : "bi-x-circle") me-1"></i>
+                                    @(Model.Estado ? "Activo" : "Inactivo")
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="Estado" style="transform: scale(1.2);">
+                                    <label class="form-check-label fw-medium" asp-for="Estado">
+                                        Usuario Activo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de Solo Lectura -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-primary mb-3">
+                        <i class="bi bi-info-circle me-2"></i>Información del Sistema
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label-custom">Rol Asignado</label>
+                                <input asp-for="RolNombre" class="form-control form-control-custom" readonly />
+                                <small class="form-text text-muted">Este campo es informativo</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="form-group mt-4">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-x-circle me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-submit text-white px-4" >
+                            <i class="bi bi-check-circle me-1"></i>Actualizar Usuario
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Actualizar el nombre del rol cuando cambie el select
+        document.getElementById('idRol').addEventListener('change', function() {
+            const rolNames = {
+                '1': 'Administrador',
+                '2': 'Docente',
+          
+                '3': 'Técnico'
+            };
+            document.getElementById('RolNombre').value = rolNames[this.value] || 'Sin Rol';
+        });
+
+        // Inicializar el nombre del rol al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const rolSelect = document.getElementById('idRol');
+            const rolNames = {
+                 '1': 'Administrador',
+                '2': 'Docente',
+
+                '3': 'Técnico'
+            };
+            document.getElementById('RolNombre').value = rolNames[rolSelect.value] || 'Sin Rol';
+
+            // Asegurar espacio adicional si es necesario
+            const body = document.body;
+            const html = document.documentElement;
+            const contentHeight = body.scrollHeight;
+            const windowHeight = window.innerHeight;
+
+            if (contentHeight < windowHeight) {
+                body.style.paddingBottom = '100px';
+            }
+        });
+    </script>
+}

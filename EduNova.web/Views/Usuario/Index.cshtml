@@ -64,6 +64,11 @@
         color: #dc3545;
     }
 
+    .btn-delete:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: blue;
+    }
+
     .table-custom th {
         background-color: #f6f7f8;
         border-bottom: 1px solid #dee2e6;
@@ -82,7 +87,7 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
        
-        <a class="btn btn-primary d-flex align-items-center gap-2" asp-action="Create">
+        <a href="@Url.Action("Create","Usuario" )" class="btn btn-primary d-flex align-items-center gap-2">
             <i class="bi bi-plus-circle"></i>
             <span>Añadir Usuario</span>
         </a>
@@ -102,8 +107,9 @@
             <table class="table table-custom">
                 <thead>
                     <tr>
-                        <th class="px-4 py-3">Nombre</th>
                         <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Nombre</th>
+                        
                         <th class="px-4 py-3">Correo</th>
                         <th class="px-4 py-3">Rol</th>
                         <th class="px-4 py-3">Estado</th>
@@ -114,17 +120,19 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td class="px-4 py-3 fw-medium">
-                                @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellidos)
-                            </td>
                             <td class="px-4 py-3 text-muted">
                                 @Html.DisplayFor(modelItem => item.IdUsuario)
                             </td>
+                            <td class="px-4 py-3 fw-medium">
+                                @Html.DisplayFor(modelItem => item.Nombre) 
+                                @Html.DisplayFor(modelItem => item.Apellidos)
+                            </td>
+                           
                             <td class="px-4 py-3 text-muted">
                                 @Html.DisplayFor(modelItem => item.Correo)
                             </td>
                             <td class="px-4 py-3 text-muted">
-                                @Html.DisplayFor(modelItem => item.Rol)
+                                @Html.DisplayFor(modelItem => item.RolNombre)
                             </td>
                             <td class="px-4 py-3">
                                 <span class="status-badge @(item.Estado ? "status-active" : "status-inactive")">
@@ -133,12 +141,17 @@
                             </td>
                             <td class="px-4 py-3">
                                 <div class="d-flex gap-2">
-                                    <a class="btn btn-action btn-edit" asp-action="Edit" asp-route-id="@item.IdUsuario">
+                                    <a href="@Url.Action("Update",new {id= item.IdUsuario})" class="btn btn-action btn-edit" >
                                         <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="@Url.Action("Details", new { id = item.IdUsuario })" class="btn btn-action btn-details">
+                                        <i class="bi bi-clipboard-data"></i>
                                     </a>
                                     <a class="btn btn-action btn-delete" asp-action="Delete" asp-route-id="@item.IdUsuario">
                                         <i class="bi bi-trash"></i>
                                     </a>
+
+
                                 </div>
                             </td>
                         </tr>

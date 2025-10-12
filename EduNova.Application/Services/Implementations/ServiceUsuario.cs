@@ -22,19 +22,22 @@ namespace EduNova.Application.Services.Implementations
     {
         private readonly IRepositoryUsuario _repository;
         private readonly IMapper _mapper;
-      
+
         private readonly eduNovaContext _context;
         private readonly ILogger<ServiceUsuario> _logger;
 
 
 
-        public ServiceUsuario(IRepositoryUsuario repository, IMapper mapper)
+        public ServiceUsuario(IRepositoryUsuario repository, IMapper mapper,eduNovaContext context,
+        ILogger<ServiceUsuario> logger) // ← Y ESTE)
         {
             _repository = repository;
             _mapper = mapper;
-            
+            _context = context;
+            _logger = logger;
+
         }
-        public async Task<string> AddAsync(UsuarioDTO dto)
+        public async Task<int> AddAsync(UsuarioDTO dto)
         {
             // Validación básica
             if (dto == null)
@@ -42,8 +45,12 @@ namespace EduNova.Application.Services.Implementations
 
             var objectMapped = _mapper.Map<Usuario>(dto);
 
-            // Agregar a la base de datos
-             return await _repository.AddAsync(objectMapped);
+            objectMapped.IdUsuario = 0; // Asegurar que el ID es 0 para nuevas inserciones
+           // Agregar a la base de datos
+             await _context.Usuario.AddAsync(objectMapped);
+            return await _context.SaveChangesAsync();
+
+
         }
 
 
@@ -57,9 +64,9 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<UsuarioDTO> FindByIdAsync(string id)
+        public async Task<UsuarioDTO> FindByIdAsync(int id)
         {
-            var @object = await _repository.FindByIdAsync(int.Parse(id));
+            var @object = await _repository.FindByIdAsync(id);
             var objectMapped = _mapper.Map<UsuarioDTO>(@object);
             return objectMapped;
         }
@@ -86,9 +93,12 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(string id, UsuarioDTO dto)
+        public async Task UpdateAsync(int id, UsuarioDTO dto)
         {
-            throw new NotImplementedException();
+            var @object = await _repository.FindByIdAsync(id);
+            //       source, destination
+            _mapper.Map(dto, @object!);
+            await _repository.UpdateAsync();
         }
     }
 }

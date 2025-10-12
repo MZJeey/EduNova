@@ -1,0 +1,240 @@
+﻿@model EduNova.Application.DTOs.UsuarioDTO
+
+@{
+    ViewData["Title"] = "Detalle Usuario";
+}
+
+<style>
+    .user-detail-card {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: none;
+        margin-bottom: 2rem; /* Espacio extra en la parte inferior */
+    }
+
+    .detail-header {
+        background: linear-gradient(135deg, #13a4ec, #0d8bc7);
+        color: white;
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 1.5rem;
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-right: 1rem;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #495057;
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+    }
+
+    .detail-value {
+        padding: 0.75rem;
+        color: #212529;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .status-badge {
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .status-active {
+        background-color: rgba(40, 167, 69, 0.15);
+        color: #28a745;
+        border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .status-inactive {
+        background-color: rgba(220, 53, 69, 0.15);
+        color: #dc3545;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .action-buttons {
+        border-top: 1px solid #e9ecef;
+        background-color: #f8f9fa;
+        border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    /* Solución para el espacio del footer */
+    .main-content-wrapper {
+        min-height: calc(100vh - 200px); /* Ajusta según la altura de tu footer */
+        padding-bottom: 2rem;
+    }
+
+    /* Asegurar que el contenido tenga suficiente margen inferior */
+    .content-container {
+        padding-bottom: 3rem;
+    }
+</style>
+
+<div class="container-fluid content-container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <a class="btn btn-outline-secondary" asp-action="Index">
+            <i class="bi bi-arrow-left"></i> Volver a la lista
+        </a>
+    </div>
+
+    <!-- User Detail Card -->
+    <div class="card user-detail-card">
+        <!-- Header con información básica -->
+        <div class="detail-header">
+            <div class="d-flex align-items-center">
+                <div class="user-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <h2 class="h4 mb-1">@Model.Nombre @Model.Apellidos</h2>
+                    <p class="mb-0 opacity-75">ID: @Model.IdUsuario</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            <!-- Información detallada -->
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <div class="p-4">
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                ID Usuario
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                @Model.IdUsuario
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Nombre
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                @Model.Nombre
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Apellidos
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                @Model.Apellidos
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Correo
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                <a href="mailto:@Model.Correo" class="text-decoration-none">
+                                    <i class="bi bi-envelope me-1"></i>@Model.Correo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-4">
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Rol
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                <span class="badge bg-primary">@Model.RolNombre</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Estado
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                <span class="status-badge @(Model.Estado ? "status-active" : "status-inactive")">
+                                    <i class="bi @(Model.Estado ? "bi-check-circle" : "bi-x-circle") me-1"></i>
+                                    @(Model.Estado ? "Activo" : "Inactivo")
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-label">
+                                Contraseña
+                            </div>
+                            <div class="col-sm-8 detail-value">
+                                <div class="input-group input-group-sm">
+                                    <input type="password" class="form-control" value="@Model.Clave" readonly>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="action-buttons p-4">
+                <div class="d-flex gap-2 justify-content-end">
+                    <a class="btn btn-outline-secondary" asp-action="Index">
+                        <i class="bi bi-arrow-left me-1"></i>Volver
+                    </a>
+                    <a href="@Url.Action("Update", new { id = Model.IdUsuario })" class="btn btn-primary">
+                        <i class="bi bi-pencil me-1"></i>Editar Usuario
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Toggle para mostrar/ocultar contraseña
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = this.closest('.input-group').querySelector('input');
+            const icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+
+        // Asegurar que la página tenga scroll suficiente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar padding inferior adicional si es necesario
+            const body = document.body;
+            const html = document.documentElement;
+
+            // Si el contenido es más corto que la ventana, agregar espacio
+            if (body.scrollHeight <= window.innerHeight) {
+                body.style.paddingBottom = '100px';
+            }
+        });
+    </script>
+}
