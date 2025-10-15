@@ -1,73 +1,175 @@
 ﻿@model EduNova.Application.DTOs.DetalleCategoriaDTO
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de Categoría";
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        display: ["Manrope"],
+                    },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                },
+            },
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        /* Estilos personalizados para asegurar que el contenido no sea tapado */
+        .min-h-screen-safe {
+            min-height: calc(100vh - 2rem);
+        }
 
-<div>
-    <h4>DetalleCategoriaDTO</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCategoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdCategoria)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt>
-            @foreach (var etiqueta in Model.Etiquetas)
-            {
-                <span class="badge bg-info">@etiqueta.Nombre</span>
-            }
-        </dt>
-      
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdSla)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdSla)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreSLA)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreSLA)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TiempoRespuesta)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TiempoRespuesta)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TiempoResolucion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TiempoResolucion)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+        .content-container {
+            padding-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+    <div class="min-h-screen-safe flex items-start justify-center p-4 content-container">
+        <div class="w-full max-w-6xl">
+            <!-- Tarjeta principal -->
+            <div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-8">
+                <!-- Información General -->
+                <div class="p-4 md:p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg md:text-xl font-semibold">Información General</h3>
+                </div>
+
+                <div class="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <!-- ID de Categoría -->
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-medium mb-2" for="category-id">ID de Categoría</label>
+                        <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary" disabled="" id="category-id" type="text" value="@Model.IdCategoria" />
+                    </div>
+
+                    <!-- Nombre de Categoría -->
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-medium mb-2" for="category-name">Nombre de la Categoría</label>
+                        <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary" disabled="" id="category-name" type="text" value="@Model.Nombre" />
+                    </div>
+
+                    <!-- Estado como Checkbox -->
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-medium mb-2">Estado</label>
+                        <div class="flex items-center space-x-3 p-3 border border-gray-300 dark:border-gray-600 rounded bg-background-light dark:bg-gray-800">
+                            <div class="relative">
+                                <input type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary"
+                                       disabled
+                                       @(Model.Estado ? "checked" : "") />
+                            </div>
+                            <span class="text-sm font-medium @(Model.Estado ? "text-green-600" : "text-red-600")">
+                                @(Model.Estado ? "Activo" : "Inactivo")
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-2" for="description">Descripción</label>
+                        <textarea class="form-textarea w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary resize-none"
+                                  disabled=""
+                                  id="description"
+                                  rows="3">@Model.Descripcion</textarea>
+                    </div>
+                </div>
+
+                <!-- Etiquetas Asociadas -->
+                <div class="p-4 md:p-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Etiquetas Asociadas</h3>
+                    <div class="flex flex-wrap gap-2">
+                        @if (Model.Etiquetas != null && Model.Etiquetas.Any())
+                        {
+                            @foreach (var etiqueta in Model.Etiquetas)
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium bg-primary/10 text-primary dark:bg-primary/20">
+                                    @etiqueta.Nombre
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-gray-500 text-sm md:text-base">No hay etiquetas asociadas</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- SLA -->
+                <div class="p-4 md:p-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">SLA (Acuerdo de Nivel de Servicio)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <!-- ID de SLA -->
+                        <div>
+                            <label class="block text-sm font-medium mb-2" for="sla-id">ID de SLA</label>
+                            <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary"
+                                   disabled=""
+                                   id="sla-id"
+                                   type="text"
+                                   value="@Model.IdSla" />
+                        </div>
+
+                        <!-- Nombre del SLA -->
+                        <div>
+                            <label class="block text-sm font-medium mb-2" for="sla-name">Nombre del SLA</label>
+                            <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary"
+                                   disabled=""
+                                   id="sla-name"
+                                   type="text"
+                                   value="@Model.NombreSLA" />
+                        </div>
+
+                        <!-- Tiempo de Respuesta -->
+                        <div>
+                            <label class="block text-sm font-medium mb-2" for="response-time">Tiempo Máximo de Respuesta</label>
+                            <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary"
+                                   disabled=""
+                                   id="response-time"
+                                   type="text"
+                                   value="@Model.TiempoRespuesta" />
+                        </div>
+
+                        <!-- Tiempo de Resolución -->
+                        <div>
+                            <label class="block text-sm font-medium mb-2" for="resolution-time">Tiempo Máximo de Resolución</label>
+                            <input class="form-input w-full rounded border-gray-300 dark:border-gray-600 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary"
+                                   disabled=""
+                                   id="resolution-time"
+                                   type="text"
+                                   value="@Model.TiempoResolucion" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="p-4 md:p-6 bg-background-light dark:bg-background-dark/50 rounded-b-lg flex flex-col sm:flex-row justify-end gap-3">
+                    <a href="@Url.Action("Edit", new { id = Model.IdCategoria })"
+                       class="px-4 py-2 text-sm font-bold rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-center">
+                        Editar
+                    </a>
+                    <a href="@Url.Action("Index")"
+                       class="px-4 py-2 text-sm font-bold rounded bg-primary text-white hover:bg-primary/90 transition-colors text-center">
+                        Volver a Categorías
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

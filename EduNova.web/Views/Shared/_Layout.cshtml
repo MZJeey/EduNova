@@ -133,16 +133,31 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
         .main-content-area {
             flex: 1;
+            padding-bottom: 0; /* Elimina padding inferior */
         }
 
-        /* Footer dentro del main content */
+        /* Footer compacto */
         .main-footer {
             margin-top: auto;
+            background-color: white;
+            border-top: 1px solid #e9ecef;
         }
+
+        .footer-compact {
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+            font-size: 0.875rem;
+        }
+
+            .footer-compact .container {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
 
         /* Responsive */
         @@media (max-width: 768px) {
@@ -154,6 +169,16 @@
             .main-content {
                 margin-left: 0;
             }
+
+            .main-footer {
+                padding: 0.5rem 0;
+            }
+        }
+
+        /* Asegurar que el contenido principal no tenga márgenes excesivos */
+        .main-content-area > .container,
+        .main-content-area > .container-fluid {
+            padding-bottom: 1rem;
         }
     </style>
 </head>
@@ -210,10 +235,14 @@
                         @RenderBody()
                     </main>
 
-                    <!-- Footer dentro del main content -->
-                    <footer class="border-top footer text-muted bg-white main-footer">
-                        <div class="container py-3">
-                            &copy; 2025 - EduNova - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <!-- Footer compacto -->
+                    <footer class="main-footer footer-compact">
+                        <div class="container">
+                            <div class="text-center py-2">
+                                <small class="text-muted">
+                                    &copy; 2025 - EduNova - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-muted text-decoration-none">Privacy</a>
+                                </small>
+                            </div>
                         </div>
                     </footer>
                 </div>

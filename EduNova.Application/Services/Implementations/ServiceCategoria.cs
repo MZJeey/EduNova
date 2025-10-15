@@ -48,6 +48,7 @@ namespace EduNova.Application.Services.Implementations
           IdCategoria = c.IdCategoria,
           Nombre = c.Nombre,
           Descripcion = c.Descripcion,
+          Estado=c.Estado,
           IdSla = c.IdSla,
           NombreSLA = c.IdSlaNavigation != null ? c.IdSlaNavigation.Nombre : "",
           TiempoRespuesta = c.IdSlaNavigation != null ? c.IdSlaNavigation.TiempoMaxRespuesta : 0,
