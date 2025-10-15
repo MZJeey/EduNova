@@ -18,16 +18,21 @@ builder.Services.AddControllersWithViews();
 
 //Repositorios
 builder.Services.AddTransient<IRepositoryUsuario,RepositoryUsuario>();
-
+builder.Services.AddTransient<IRepositoyCategoria, RepositoryCategoria>();
 //servicios
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
-
+builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
 //Configuracion AutoMapper
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<UsuarioProfile>();
+    config.AddProfile<CategoriaProfile>();
 });
 
+/*builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<CategoriaProfile>();
+});*/
 //Configuracion conexion a la base de datos
 builder.Services.AddDbContext<eduNovaContext>(options =>
 {

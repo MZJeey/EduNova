@@ -1,302 +1,128 @@
-﻿@{
-    ViewData["Title"] = "Categorias";
-}
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
-    <style>
-        :root {
-            --primary: #4dabf7; /* Azul más suave */
-            --primary-light: #e7f5ff; /* Azul muy claro para fondos */
-            --primary-lighter: #f8fbff; /* Azul casi blanco */
-            --background-light: #f8fbff; /* Fondo azul muy suave */
-            --background-dark: #0f172a;
+﻿<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduNova - Panel de Administración</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
         }
-
-        body {
-            background: linear-gradient(135deg, var(--primary-lighter) 0%, #ffffff 100%);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
-            border: 1px solid rgba(77, 171, 247, 0.1);
-            border-radius: 1rem;
-            box-shadow: 0 2px 8px rgba(77, 171, 247, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-            .feature-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 3px;
-                background: linear-gradient(90deg, var(--primary) 0%, rgba(77, 171, 247, 0.3) 100%);
-                transform: scaleX(0);
-                transition: transform 0.3s ease;
-            }
-
-            .feature-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 8px 25px rgba(77, 171, 247, 0.15);
-                border-color: rgba(77, 171, 247, 0.3);
-            }
-
-                .feature-card:hover::before {
-                    transform: scaleX(1);
-                }
-
-        .feature-icon {
-            background: linear-gradient(135deg, var(--primary) 0%, #74c0fc 100%);
-            color: white;
-            border-radius: 0.75rem;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(77, 171, 247, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(77, 171, 247, 0.3);
-        }
-
-        .card-title {
-            color: #2c5282;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-description {
-            color: #4a5568;
-            line-height: 1.5;
-        }
-
-        .chevron-icon {
-            color: #a0aec0;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .chevron-icon {
-            color: var(--primary);
-            transform: translateX(3px);
-        }
-
-        /* Efectos de modo oscuro */
-        .dark-mode body {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        }
-
-        .dark-mode .feature-card {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            border: 1px solid rgba(77, 171, 247, 0.2);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-            .dark-mode .feature-card:hover {
-                box-shadow: 0 8px 25px rgba(77, 171, 247, 0.2);
-            }
-
-        .dark-mode .card-title {
-            color: #e2e8f0;
-        }
-
-        .dark-mode .card-description {
-            color: #cbd5e0;
-        }
-
-        /* Animación sutil para las tarjetas */
-        @@keyframes fadeInUp {
-            from
-
-        {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        }
-
-        .feature-card {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-            .feature-card:nth-child(1) {
-                animation-delay: 0.1s;
-            }
-
-            .feature-card:nth-child(2) {
-                animation-delay: 0.2s;
-            }
-
-            .feature-card:nth-child(3) {
-                animation-delay: 0.3s;
-            }
-
-            .feature-card:nth-child(4) {
-                animation-delay: 0.4s;
-            }
-
-        /* Mejoras de tipografía */
-        body {
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
         }
     </style>
 </head>
-<body>
-    <!-- Main Content -->
-    <main class="flex-grow-1">
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10">
-                    <!-- Header del Panel -->
-                    <div class="text-center mb-5">
-                        <h1 class="display-5 fw-bold mb-4" style="color: #2c5282;">Panel de Administración</h1>
-                        <p class="lead text-muted">Seleccione una categoría para gestionar sus funcionalidades</p>
-                    </div>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<div class="flex flex-col min-h-screen">
+<header class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-8 bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined">school</span>
 
-                    <!-- Grid de Tarjetas -->
-                    <div class="row g-4">
-                        <!-- Notas y Evaluaciones -->
-                        <div class="col-12 col-md-6">
-                            <a href="#" class="text-decoration-none">
-                                <div class="feature-card p-4 h-100">
-                                    <div class="d-flex align-items-center">
-                                        <div class="feature-icon me-4">
-                                            <i class="bi bi-clipboard-check fs-4"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h5 class="card-title mb-2">Notas y Evaluaciones</h5>
-                                            <p class="card-description mb-0 small">Gestiona calificaciones y evaluaciones de manera eficiente.</p>
-                                        </div>
-                                        <i class="bi bi-chevron-right chevron-icon fs-5"></i>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
 
-                        <!-- Gestión Estudiantil -->
-                        <div class="col-12 col-md-6">
-                            <a href="#" class="text-decoration-none">
-                                <div class="feature-card p-4 h-100">
-                                    <div class="d-flex align-items-center">
-                                        <div class="feature-icon me-4">
-                                            <i class="bi bi-people fs-4"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h5 class="card-title mb-2">Gestión Estudiantil</h5>
-                                            <p class="card-description mb-0 small">Administra la información completa de los estudiantes.</p>
-                                        </div>
-                                        <i class="bi bi-chevron-right chevron-icon fs-5"></i>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9GyLytjPhMusdnZ_nLT6fI0fmJK5DN6HzK1osc1yTDVqRV6QXXLzVnCuqiPXe-_FN0OW0Dnfhbmlb6LwVz5sncr8Y18tPWRA1z2W1M9Uarn9_G0jVE-MFjcRLZ5Aj0IcaMtZTxuJwHWK1pi6HWArsqz2bK4L8lV7rXbR76Fn0rJRo_kcE-EebLvxmAQKFQr8vKL8grDsH11ZUpCPbO63-3y0p0K2qYzzQSDM-RZp5-KQfPLQyYK_MrA0c0pBgVFQ9Vu8XF-TC0ek");'></div>
+<button class="md:hidden p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="max-w-4xl mx-auto">
+<header class="mb-8">
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Panel de Administración</h2>
+<p class="mt-2 text-base text-slate-500 dark:text-slate-400">Seleccione una categoría para gestionar sus funcionalidades.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<a class="group block p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm hover:shadow-lg hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-12 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined text-3xl">grading</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Notas y Evaluaciones</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Gestiona calificaciones y evaluaciones.</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+</a>
+<a class="group block p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm hover:shadow-lg hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-12 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined text-3xl">groups</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Gestión Estudiante</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Administra la información de los estudiantes.</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+</a>
+<a class="group block p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm hover:shadow-lg hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-12 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined text-3xl">calendar_month</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Planificación de Clases</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Planifica clases, horarios y temarios.</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+</a>
+<a class="group block p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm hover:shadow-lg hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300" href="#">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-12 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined text-3xl">devices</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Recursos Tecnológicos</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Accede a recursos para mejorar la enseñanza.</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+</a>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<
+</div>
+</footer>
+</div>
 
-                        <!-- Planificación de Clases -->
-                        <div class="col-12 col-md-6">
-                            <a href="#" class="text-decoration-none">
-                                <div class="feature-card p-4 h-100">
-                                    <div class="d-flex align-items-center">
-                                        <div class="feature-icon me-4">
-                                            <i class="bi bi-calendar-week fs-4"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h5 class="card-title mb-2">Planificación de Clases</h5>
-                                            <p class="card-description mb-0 small">Organiza horarios, temarios y actividades académicas.</p>
-                                        </div>
-                                        <i class="bi bi-chevron-right chevron-icon fs-5"></i>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <!-- Recursos Tecnológicos -->
-                        <div class="col-12 col-md-6">
-                            <a href="#" class="text-decoration-none">
-                                <div class="feature-card p-4 h-100">
-                                    <div class="d-flex align-items-center">
-                                        <div class="feature-icon me-4">
-                                            <i class="bi bi-laptop fs-4"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h5 class="card-title mb-2">Recursos Tecnológicos</h5>
-                                            <p class="card-description mb-0 small">Accede a herramientas digitales para mejorar la enseñanza.</p>
-                                        </div>
-                                        <i class="bi bi-chevron-right chevron-icon fs-5"></i>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Scripts -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    <script>
-        // Detectar modo oscuro del sistema
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-        }
-
-        // Alternar modo oscuro/claro
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        // Efecto adicional al hacer hover
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.feature-card');
-
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-6px) scale(1.02)';
-                });
-
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+</body></html>
