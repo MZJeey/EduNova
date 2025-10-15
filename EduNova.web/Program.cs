@@ -22,11 +22,13 @@ builder.Services.AddTransient<IRepositoyCategoria, RepositoryCategoria>();
 //servicios
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
+//builder.Services.AddTransient<IServiceDetalleCategoria, ServiceDetalleCategoria>();
 //Configuracion AutoMapper
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<UsuarioProfile>();
     config.AddProfile<CategoriaProfile>();
+    //config.AddProfile<DetalleCategoriaProfile>();
 });
 
 /*builder.Services.AddAutoMapper(config =>

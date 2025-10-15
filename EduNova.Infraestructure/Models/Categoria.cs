@@ -17,6 +17,7 @@ public partial class Categoria
 
     public virtual Sla IdSlaNavigation { get; set; } = null!;
 
+    //public virtual Etiqueta IdEti { get; set; } = null!;
     public virtual ICollection<Tickets> Tickets { get; set; } = new List<Tickets>();
 
     public virtual ICollection<Etiqueta> IdEtiqueta { get; set; } = new List<Etiqueta>();
