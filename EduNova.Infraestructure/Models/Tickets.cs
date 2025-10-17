@@ -15,8 +15,6 @@ public partial class Tickets
 
     public DateTime? FechaCierre { get; set; }
 
-    public bool Estado { get; set; }
-
     public string Prioridad { get; set; } = null!;
 
     public int UsuarioSolicitante { get; set; }
@@ -25,9 +23,15 @@ public partial class Tickets
 
     public int IdSla { get; set; }
 
+    public string? Valoracion { get; set; }
+
     public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
 
     public virtual Sla IdSlaNavigation { get; set; } = null!;
+
+    public virtual ICollection<Imagenes> Imagenes { get; set; } = new List<Imagenes>();
+
+    public virtual ICollection<TicketHistorial> TicketHistorial { get; set; } = new List<TicketHistorial>();
 
     public virtual Usuario UsuarioSolicitanteNavigation { get; set; } = null!;
 }

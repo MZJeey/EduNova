@@ -25,5 +25,7 @@ public partial class Usuario
 
     public virtual ICollection<Seguimiento> Seguimiento { get; set; } = new List<Seguimiento>();
 
+    public virtual ICollection<TicketHistorial> TicketHistorial { get; set; } = new List<TicketHistorial>();
+
     public virtual ICollection<Tickets> Tickets { get; set; } = new List<Tickets>();
 }

@@ -111,6 +111,27 @@
                     </div>
                 </div>
 
+                <!-- Especialidades asociadas
+                -->
+                <div class="p-4 md:p-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg md:text-xl font-semibold mb-4">Especialidades Asociadas</h3>
+                    <div class="flex flex-wrap gap-2">
+                        @if (Model.Especialidades != null && Model.Especialidades .Any())
+                        {
+                            @foreach (var etiqueta in Model.Especialidades)
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium bg-primary/10 text-primary dark:bg-primary/20">
+                                    @etiqueta.NombreEspecialidad
+                                </span>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-gray-500 text-sm md:text-base">No hay etiquetas asociadas</p>
+                        }
+                    </div>
+                </div>
+
                 <!-- SLA -->
                 <div class="p-4 md:p-6 border-t border-gray-200 dark:border-gray-700">
                     <h3 class="text-lg md:text-xl font-semibold mb-4">SLA (Acuerdo de Nivel de Servicio)</h3>

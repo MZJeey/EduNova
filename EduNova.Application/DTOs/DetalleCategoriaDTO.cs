@@ -19,6 +19,7 @@ namespace EduNova.Application.DTOs
         public int? TiempoResolucion { get; set; }
 
         public List<EtiquetaDTO> Etiquetas { get; set; } = new();
+        public List<EspecialidadesDTO> Especialidades { get; set; } = new();
 
 
     }

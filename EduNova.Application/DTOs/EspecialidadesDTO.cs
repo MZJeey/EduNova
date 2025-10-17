@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace EduNova.Application.DTOs
 {
-    public class CategoriaDTO
+    public class EspecialidadesDTO
     {
-        public int IdCategoria { get; set; }
-        public string Nombre { get; set; } = null!;
+        public int IdEspecialidad { get; set; }
+        public string NombreEspecialidad { get; set; } = null!;
+        public bool Estado { get; set; }
         public string? Descripcion { get; set; }
-
-        public int? IdSla { get; set; }  
         
-    
-      
+        public  int? IdCategoria { get; set; }
     }
 }

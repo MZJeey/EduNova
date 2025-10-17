@@ -19,15 +19,18 @@ builder.Services.AddControllersWithViews();
 //Repositorios
 builder.Services.AddTransient<IRepositoryUsuario,RepositoryUsuario>();
 builder.Services.AddTransient<IRepositoyCategoria, RepositoryCategoria>();
+builder.Services.AddTransient<IRepositoryTickets, RepositoryTickets>();
 //servicios
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
+builder.Services.AddTransient<IServiceTickets, ServiceTickets>();
 //builder.Services.AddTransient<IServiceDetalleCategoria, ServiceDetalleCategoria>();
 //Configuracion AutoMapper
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<UsuarioProfile>();
     config.AddProfile<CategoriaProfile>();
+    config.AddProfile<TicketProfile>();
     //config.AddProfile<DetalleCategoriaProfile>();
 });
 

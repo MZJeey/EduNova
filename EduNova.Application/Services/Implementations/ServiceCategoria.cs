@@ -42,6 +42,7 @@ namespace EduNova.Application.Services.Implementations
             var categoria = await _context.Categoria
       .Include(c => c.IdSlaNavigation)
       .Include(c => c.IdEtiqueta)
+      .Include(c => c.Especialidades)
       .Where(c => c.IdCategoria == id)
       .Select(c => new DetalleCategoriaDTO
       {
@@ -51,6 +52,7 @@ namespace EduNova.Application.Services.Implementations
           Estado=c.Estado,
           IdSla = c.IdSla,
           NombreSLA = c.IdSlaNavigation != null ? c.IdSlaNavigation.Nombre : "",
+          
           TiempoRespuesta = c.IdSlaNavigation != null ? c.IdSlaNavigation.TiempoMaxRespuesta : 0,
           TiempoResolucion = c.IdSlaNavigation != null ? c.IdSlaNavigation.TiempoMaxResolucion : 0,
          Etiquetas= c.IdEtiqueta != null ? c.IdEtiqueta.Select(e => new EtiquetaDTO
@@ -59,7 +61,13 @@ namespace EduNova.Application.Services.Implementations
               Nombre = e.Nombre,
             
              
-          }).ToList() : new List<EtiquetaDTO>()
+          }).ToList() : new List<EtiquetaDTO>(),
+          Especialidades=c.Especialidades != null ? c.Especialidades.Select(es => new EspecialidadesDTO
+          {
+              IdEspecialidad = es.Idespecialidad,
+              NombreEspecialidad = es.NombreEspecialidad,
+              IdCategoria = es.IdCategoria
+          }).ToList() : new List<EspecialidadesDTO>()
 
 
       })

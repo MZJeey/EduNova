@@ -13,5 +13,9 @@ public partial class Etiqueta
 
     public bool Estado { get; set; }
 
-    public virtual ICollection<Categoria> IdCategoria { get; set; } = new List<Categoria>();
+    public int? IdCategoria { get; set; }
+
+    public virtual Categoria? IdCategoria1 { get; set; }
+
+    public virtual ICollection<Categoria> IdCategoriaNavigation { get; set; } = new List<Categoria>();
 }
