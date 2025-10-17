@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNova.web", "EduNova.web\EduNova.web.csproj", "{7F53789F-901C-485C-B4B1-2C0DA17067CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNova.Infraestructure", "EduNova.Infraestructure\EduNova.Infraestructure.csproj", "{09788BB3-5CD6-47DA-86CA-03EBB4EAD9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNova.Application", "EduNova.Application\EduNova.Application.csproj", "{C9309DBE-EE91-422E-884A-0D8FDB2296DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F53789F-901C-485C-B4B1-2C0DA17067CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09788BB3-5CD6-47DA-86CA-03EBB4EAD9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09788BB3-5CD6-47DA-86CA-03EBB4EAD9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09788BB3-5CD6-47DA-86CA-03EBB4EAD9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09788BB3-5CD6-47DA-86CA-03EBB4EAD9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9309DBE-EE91-422E-884A-0D8FDB2296DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9309DBE-EE91-422E-884A-0D8FDB2296DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9309DBE-EE91-422E-884A-0D8FDB2296DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9309DBE-EE91-422E-884A-0D8FDB2296DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

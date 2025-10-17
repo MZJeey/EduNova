@@ -1,0 +1,177 @@
+﻿@model IEnumerable<EduNova.Application.DTOs.CategoriaDTO>
+
+@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-11">
+            <!-- Header del Panel -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               
+                <a class="btn btn-primary-custom text-white" asp-action="Create">
+                    <i class="bi bi-plus-circle me-2"></i>Nueva Categoría
+                </a>
+            </div>
+
+            <!-- Tabla de Categorías -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>SLA</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="fw-semibold">@Html.DisplayFor(modelItem => item.IdCategoria)</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="feature-icon me-3">
+                                                <i class="bi bi-tag"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold">@Html.DisplayFor(modelItem => item.Nombre)</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Descripcion))
+                                        {
+                                            <span class="text-muted">@Html.DisplayFor(modelItem => item.Descripcion)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">Sin descripción</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-active">@Html.DisplayFor(modelItem => item.IdSla)</span>
+                                    </td>
+                                    <td class="action-buttons text-center">
+                                        <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.IdCategoria" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.IdCategoria" title="Detalles">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.IdCategoria" title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mensaje cuando no hay categorías -->
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <div class="feature-icon mx-auto mb-3">
+                        <i class="bi bi-inbox fs-2"></i>
+                    </div>
+                    <h4 class="text-muted">No hay categorías registradas</h4>
+                    <p class="text-muted mb-4">Comienza creando tu primera categoría en el sistema.</p>
+                    <a class="btn btn-primary-custom text-white" asp-action="Create">
+                        <i class="bi bi-plus-circle me-2"></i>Crear Primera Categoría
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary: #13a4ec;
+        --background-light: #f6f7f8;
+        --background-dark: #101c22;
+    }
+
+    .btn-primary-custom {
+        background-color: var(--primary);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary-custom:hover {
+            background-color: #0d8bc4;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(19, 164, 236, 0.3);
+        }
+
+    .table-container {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .table-custom {
+        margin-bottom: 0;
+    }
+
+        .table-custom thead th {
+            background-color: rgba(19, 164, 236, 0.1);
+            border-bottom: 2px solid rgba(19, 164, 236, 0.3);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .table-custom tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table-custom tbody tr:hover {
+            background-color: rgba(19, 164, 236, 0.05);
+        }
+
+    .feature-icon {
+        background-color: rgba(19, 164, 236, 0.1);
+        color: var(--primary);
+        border-radius: 0.5rem;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .action-buttons .btn {
+        padding: 0.25rem 0.5rem;
+        margin: 0 0.125rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-active {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+</style>
