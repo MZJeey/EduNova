@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EduNova.Application.DTOs.HistorialTicketDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHistorial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTicket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.observaciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoNuevo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCambio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioCambio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHistorial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTicket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.observaciones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoNuevo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCambio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuarioCambio)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -25,6 +25,8 @@ public partial class Tickets
 
     public string? Valoracion { get; set; }
 
+    public string? Estado { get; set; }
+
     public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
 
     public virtual Sla IdSlaNavigation { get; set; } = null!;

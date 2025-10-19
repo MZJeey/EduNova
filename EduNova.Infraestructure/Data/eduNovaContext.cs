@@ -332,6 +332,9 @@ public partial class eduNovaContext : DbContext
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(250)
                 .HasColumnName("descripcion");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.FechaCierre)
                 .HasColumnType("datetime")
                 .HasColumnName("fechaCierre");

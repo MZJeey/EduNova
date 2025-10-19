@@ -106,11 +106,11 @@ namespace EduNova.Application.Services.Implementations
                     IdTicket = t.IdTicket,
                     Titulo = t.Titulo,
                     Descripcion = t.Descripcion,
-                   FechaCierre = t.FechaCierre,
+                    FechaCierre = t.FechaCierre,
                     FechaCreacion = t.FechaCreacion,
-                    Estado = t.Estado,
                     Prioridad = t.Prioridad,
-                   
+                    Estado = t.Estado,
+
 
 
                     // Mapea propiedades de las navegaciones
