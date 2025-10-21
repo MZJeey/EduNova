@@ -21,11 +21,13 @@ builder.Services.AddTransient<IRepositoryUsuario,RepositoryUsuario>();
 builder.Services.AddTransient<IRepositoyCategoria, RepositoryCategoria>();
 builder.Services.AddTransient<IRepositoryTickets, RepositoryTickets>();
 builder.Services.AddTransient<IRepositoryHistorialTicket, RepositoryHistorialTicket>();
+builder.Services.AddTransient<IRepositoryImagen, RepositoryImagen>();
 //servicios
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
 builder.Services.AddTransient<IServiceTickets, ServiceTickets>();
 builder.Services.AddTransient<IServiceHistorialTicket, ServiceHistorialTicket>();
+builder.Services.AddTransient<IServiceImagen, ServiceImagen>();
 //builder.Services.AddTransient<IServiceDetalleCategoria, ServiceDetalleCategoria>();
 //Configuracion AutoMapper
 builder.Services.AddAutoMapper(config =>
@@ -34,6 +36,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<CategoriaProfile>();
     config.AddProfile<TicketProfile>();
     config.AddProfile<HistorialTicketProfile>();
+    config.AddProfile<ImagenProfile>();
     //config.AddProfile<DetalleCategoriaProfile>();
 });
 

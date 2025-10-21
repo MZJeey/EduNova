@@ -42,9 +42,33 @@ namespace EduNova.Infraestructure.Repository.Implementations
             return collection;
         }
 
+        public async Task<List<Tickets>> GetTicketsByUserIdAsync(int userId)
+        {
+            var tickets = await _context.Set<Tickets>()
+                .Where(t => t.UsuarioSolicitante == userId)
+                .Include(t => t.IdCategoriaNavigation)
+                .Include(t => t.UsuarioSolicitanteNavigation)
+                .Include(t => t.IdSlaNavigation)
+                .ToListAsync();
+
+            return tickets;
+        }
+
         public Task UpdateAsync(Tickets entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado)
+        {
+            var ticket = await _context.Set<Tickets>()
+        .FindAsync(ticketId);
+
+           
+
+            ticket.Estado = nuevoEstado;
+            await _context.SaveChangesAsync();
+           
         }
     }
 }

@@ -10,7 +10,7 @@ namespace EduNova.Application.Services.Interfaces
     public interface IServiceImagen
     {
         Task<ICollection<ImagenDTO>> ListAsync();
-        Task<ImagenDTO> FindByIdAsync(int id);
+        Task< List<ImagenDTO>> FindByIdAsync(int id);
         Task<int> AddAsync(ImagenDTO dto);
         Task DeleteAsync(int id);
         Task UpdateAsync(int id, ImagenDTO dto);

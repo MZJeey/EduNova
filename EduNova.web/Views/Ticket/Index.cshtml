@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EduNova.Application.DTOs.TicketDTO>
+﻿@* @model IEnumerable<EduNova.Application.DTOs.TicketDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,14 +21,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
-           
-          
-           
+         
+         
             <th>
                 @Html.DisplayNameFor(model => model.valoracion)
             </th>
-           
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioSolicitante)
+            </th>
           
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,18 +45,173 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
+         
            
-          
+            
             <td>
                 @Html.DisplayFor(modelItem => item.valoracion)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioSolicitante)
+            </td>
+           
            
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.IdTicket  }) |
+                @Html.ActionLink("Details", "Details", new { id=item.IdTicket}) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
     </tbody>
-</table>
+</table> *@
+
+@model IEnumerable<EduNova.Application.DTOs.TicketDTO>
+
+@{
+    ViewData["Title"] = "Seguimiento de Tickets";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+ 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex flex-col min-h-screen">
+        <main class="flex-1 flex flex-col">
+            <header class="h-20 flex items-center justify-between px-8 bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white mr-4">EduNova</h1>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Seguimiento de Tickets</h2>
+                </div>
+                <a asp-action="Create" class="flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/80">
+                    <span class="material-symbols-outlined mr-2">add</span>
+                    Nuevo Ticket
+                </a>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8">
+                <div class="bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    <th class="px-6 py-4" scope="col">ID Ticket</th>
+                                    <th class="px-6 py-4" scope="col">Título</th>
+                                    <th class="px-6 py-4" scope="col">Descripción</th>
+                                    <th class="px-6 py-4" scope="col">Valoración</th>
+                                    <th class="px-6 py-4" scope="col">Usuario</th>
+                                    <th class="px-6 py-4 text-center" scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="bg-background-light dark:bg-background-dark border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                            #@Html.DisplayFor(modelItem => item.IdTicket)
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                            @Html.DisplayFor(modelItem => item.Titulo)
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="max-w-xs truncate">
+                                                @Html.DisplayFor(modelItem => item.Descripcion)
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @if (item.valoracion != null && item.valoracion.ToString() != "0")
+                                            {
+                                                <div class="flex items-center gap-1">
+                                                    <span class="material-symbols-outlined text-yellow-500 text-sm">star</span>
+                                                    <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                                        @Html.DisplayFor(modelItem => item.valoracion)
+                                                    </span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-sm text-gray-400 dark:text-gray-500">Sin valorar</span>
+                                            }
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="text-gray-900 dark:text-white">
+                                                @Html.DisplayFor(modelItem => item.UsuarioSolicitante)
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center justify-center space-x-3">
+                                                <a href="@Url.Action("Details", new { id = item.IdTicket })" class="text-primary hover:text-primary/80" title="Ver detalles">
+                                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                                </a>
+                                                <a href="@Url.Action("Edit", new { id = item.IdTicket })" class="text-primary hover:text-primary/80" title="Editar">
+                                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                                </a>
+                                                <a href="@Url.Action("Delete", new { id = item.IdTicket })" class="text-primary hover:text-primary/80" title="Eliminar">
+                                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- Empty State -->
+                        @if (!Model.Any())
+                        {
+                            <div class="text-center py-12">
+                                <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 text-6xl mb-4">description</span>
+                                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No hay tickets</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mb-4">No se han encontrado tickets en el sistema.</p>
+                                <a asp-action="Create" class="flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/80 w-fit mx-auto">
+                                    <span class="material-symbols-outlined mr-2">add</span>
+                                    Crear el primer ticket
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Footer Info -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Mostrando <span class="font-medium text-gray-700 dark:text-gray-300">@Model.Count()</span> tickets
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html></html>

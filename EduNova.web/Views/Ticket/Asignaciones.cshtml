@@ -1,0 +1,405 @@
+﻿@* @model IEnumerable<EduNova.Application.DTOs.TicketDTO>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EduNova - Mis Asignaciones de Tickets</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "urgent": "#ef4444",
+                        "high": "#f97316",
+                        "medium": "#eab308",
+                        "low": "#22c55e",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex flex-col min-h-screen">
+        <header class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-20 border-b border-primary/20 dark:border-primary/30">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Aquí iría el header de la aplicación -->
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <div class="flex flex-col gap-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Mis Asignaciones de Tickets</h2>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Tickets asignados a usted para esta semana.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="flex items-center gap-2 py-2 px-4 rounded-lg text-sm font-medium bg-white dark:bg-background-dark/50 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-background-dark/80">
+                            <span class="material-symbols-outlined text-base">calendar_today</span>
+                            <span>Esta Semana</span>
+                            <span class="material-symbols-outlined text-base">expand_more</span>
+                        </button>
+                        <button class="p-2 rounded-lg bg-white dark:bg-background-dark/50 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-background-dark/80">
+                            <span class="material-symbols-outlined text-base">filter_list</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Información del usuario actual -->
+             
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-background-dark/50 rounded-lg shadow-sm border border-primary/20 dark:border-primary/30">
+                        <div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_Me_pwcXW3lnDHGbmfkngVvqEqpbTmt1ikt5BD2kepuTv3FAXRucGwSkPHv1AxO80jox90ggfLcve09uJdWUzg2heUX_pGJ8DP1ccX_7SzhFEr0s2RWqltpkq6tm2qFvv9cgdhVQrwkzWUkJk67A_z38SpaNu8KS3Is9X4Wk-5c9GFnxD3TCutMFmDLWN_hmWff0LvAVPHEB_NTXWT5D9QjUxWrfziGGibq8ndAbuJm_NbYV03N7tY8_SR_6-APu4AGmZLoW6n6A")'></div>
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white">
+                                @Html.DisplayFor(model => model)
+
+                            </p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Técnico de Soporte</p>
+                        </div>
+                    </div>
+
+                    <!-- Tickets asignados al usuario actual -->
+                    <div class="space-y-4">
+                        <!-- Ticket Urgente -->
+                        <div class="bg-white dark:bg-background-dark/50 rounded-xl shadow-sm border border-urgent/40 dark:border-urgent/50 p-4 space-y-3">
+                            <div class="flex justify-between items-start">
+                                <span class="font-bold text-gray-800 dark:text-white">#T001-URG</span>
+                                <span class="flex items-center text-xs font-medium text-urgent bg-urgent/10 rounded-full px-2 py-0.5">
+                                    <span class="material-symbols-outlined text-sm mr-1">local_fire_department</span> Urgente
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 font-medium">Fallo en servidor de notas</p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                <span class="material-symbols-outlined text-base">dns</span>
+                                <span>Recursos Tecnológicos</span>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                                    <span>SLA</span>
+                                    <span>2h restantes</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                    <div class="bg-urgent h-1.5 rounded-full" style="width: 25%"></div>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-end gap-2">
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>Ver Detalle
+                                </button>
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">change_circle</span>Cambiar Estado
+                                </button>
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">add_comment</span>Agregar Comentario
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Medio -->
+                        <div class="bg-white dark:bg-background-dark/50 rounded-xl shadow-sm border border-medium/40 dark:border-medium/50 p-4 space-y-3">
+                            <div class="flex justify-between items-start">
+                                <span class="font-bold text-gray-800 dark:text-white">#T002-MED</span>
+                                <span class="flex items-center text-xs font-medium text-medium bg-medium/10 rounded-full px-2 py-0.5">
+                                    <span class="material-symbols-outlined text-sm mr-1">warning</span> Medio
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 font-medium">Problema con proyector Aula 5</p>
+                            <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                <span class="material-symbols-outlined text-base">smart_display</span>
+                                <span>Recursos Tecnológicos</span>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                                    <span>SLA</span>
+                                    <span>3 días restantes</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                    <div class="bg-medium h-1.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-end gap-2">
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>Ver Detalle
+                                </button>
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">change_circle</span>Cambiar Estado
+                                </button>
+                                <button class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">add_comment</span>Agregar Comentario
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fin div-->
+            </div>
+        </main>
+    </div>
+</body>
+</html> *@
+
+@model IEnumerable<EduNova.Application.DTOs.TicketDTO>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduNova - Mis Asignaciones de Tickets</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "urgent": "#ef4444",
+                        "high": "#f97316",
+                        "medium": "#eab308",
+                        "low": "#22c55e",
+                        "critico": "#ef4444",
+                        "advertencia": "#f97316",
+                        "normal": "#22c55e",
+                        "completado": "#10b981"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="flex flex-col min-h-screen">
+        <header class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-20 border-b border-primary/20 dark:border-primary/30">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Header de la aplicación -->
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <div class="flex flex-col gap-8">
+                <!-- Título -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Mis Asignaciones de Tickets</h2>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Tickets asignados a usted para esta semana.</p>
+                    </div>
+                </div>
+
+                <!-- Información del usuario -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-background-dark/50 rounded-lg shadow-sm border border-primary/20 dark:border-primary/30">
+                        <div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_Me_pwcXW3lnDHGbmfkngVvqEqpbTmt1ikt5BD2kepuTv3FAXRucGwSkPHv1AxO80jox90ggfLcve09uJdWUzg2heUX_pGJ8DP1ccX_7SzhFEr0s2RWqltpkq6tm2qFvv9cgdhVQrwkzWUkJk67A_z38SpaNu8KS3Is9X4Wk-5c9GFnxD3TCutMFmDLWN_hmWff0LvAVPHEB_NTXWT5D9QjUxWrfziGGibq8ndAbuJm_NbYV03N7tY8_SR_6-APu4AGmZLoW6n6A")'></div>
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white">@Model.FirstOrDefault()?.NombreSolicitante</p>
+                        </div>
+                    </div>
+
+                    <!-- Tickets asignados -->
+                    <div class="space-y-4">
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var ticket in Model)
+                            {
+                                var prioridadClass = ticket.Prioridad switch
+                                {
+                                    "Urgente" => "urgent",
+                                    "Alta" => "high",
+                                    "Media" => "medium",
+                                    "Baja" => "low",
+                                    _ => "primary"
+                                };
+
+                                var icono = ticket.Prioridad switch
+                                {
+                                    "Urgente" => "local_fire_department",
+                                    "Alta" => "priority_high",
+                                    "Media" => "warning",
+                                    "Baja" => "check_circle",
+                                    _ => "info"
+                                };
+
+                                // Determinar si el ticket está cerrado
+                                bool estaCerrado = ticket.Estado?.ToLower() == "cerrado" || ticket.Estado?.ToLower() == "completado";
+
+                                // CALCULAR PROGRESO DIRECTAMENTE EN LA VISTA
+                                int horasTranscurridas = 0;
+                                int porcentajeProgreso = 0;
+                                string estadoSla = "normal";
+
+                                if (ticket.TiempoResolucion.HasValue && ticket.TiempoResolucion.Value > 0)
+                                {
+                                    if (estaCerrado && ticket.FechaCierre.HasValue)
+                                    {
+                                        // Ticket cerrado: mostrar tiempo total que tomó
+                                        var tiempoTotal = ticket.FechaCierre.Value - ticket.FechaCreacion;
+                                        horasTranscurridas = (int)Math.Ceiling(tiempoTotal.TotalHours);
+                                        porcentajeProgreso = 100;
+                                        estadoSla = "completado";
+                                    }
+                                    else
+                                    {
+                                        // Ticket abierto: calcular progreso actual
+                                        var tiempoTranscurrido = DateTime.Now - ticket.FechaCreacion;
+                                        horasTranscurridas = (int)Math.Ceiling(tiempoTranscurrido.TotalHours);
+                                        porcentajeProgreso = (horasTranscurridas * 100) / ticket.TiempoResolucion.Value;
+
+                                        // Determinar estado del SLA
+                                        if (porcentajeProgreso >= 100) estadoSla = "critico";
+                                        else if (porcentajeProgreso >= 75) estadoSla = "advertencia";
+                                        else estadoSla = "normal";
+                                    }
+                                }
+
+                                <div class="bg-white dark:bg-background-dark/50 rounded-xl shadow-sm border border-@prioridadClass/40 dark:border-@prioridadClass/50 p-4 space-y-3">
+                                    <div class="flex justify-between items-start">
+                                        <span class="font-bold text-gray-800 dark:text-white">#@ticket.IdTicket</span>
+                                        <div class="flex items-center gap-2">
+                                            @if (estaCerrado)
+                                            {
+                                                <span class="flex items-center text-xs font-medium text-completado bg-completado/10 rounded-full px-2 py-0.5">
+                                                    <span class="material-symbols-outlined text-sm mr-1">check_circle</span> Completado
+                                                </span>
+                                            }
+                                            <span class="flex items-center text-xs font-medium text-@prioridadClass bg-@prioridadClass/10 rounded-full px-2 py-0.5">
+                                                <span class="material-symbols-outlined text-sm mr-1">@icono</span> @ticket.Prioridad
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 font-medium">@ticket.Titulo</p>
+
+                                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span class="material-symbols-outlined text-base">category</span>
+                                        <h3 class="font-medium">Categoría:</h3>
+                                        <span>@ticket.NombreCategoria</span>
+                                    </div>
+
+                                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span class="material-symbols-outlined text-base">schedule</span>
+                                        <h3 class="font-medium">SLA:</h3>
+                                        <span>@ticket.NombreSla</span>
+                                    </div>
+
+                                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span class="material-symbols-outlined text-base">info</span>
+                                        <h3 class="font-medium">Estado:</h3>
+                                        <span>@ticket.Estado</span>
+                                    </div>
+
+                                    <!-- PROGRESO DEL SLA - RESPONSE TIME -->
+                                    @if (ticket.TiempoRespuesta.HasValue && ticket.TiempoRespuesta.Value > 0)
+                                    {
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <span class="material-symbols-outlined text-base text-@estadoSla">timer</span>
+                                                <h3 class="font-medium text-gray-500 dark:text-gray-400">
+                                                    @if (estaCerrado)
+                                                    {
+                                                        @:Tiempo de respuesta:
+                                                    }
+                                                    else
+                                                    {
+                                                        @:Progreso respuesta:
+                                                    }
+                                                </h3>
+                                                <span class="font-medium text-@estadoSla">@horasTranscurridas/@ticket.TiempoRespuesta.Value horas</span>
+                                            </div>
+                                            <!-- Barra de progreso -->
+                                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                                <div class="bg-@estadoSla h-2 rounded-full" style="width: @(Math.Min(porcentajeProgreso, 100))%"></div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- PROGRESO DEL SLA - RESOLUTION TIME -->
+                                    @if (ticket.TiempoResolucion.HasValue && ticket.TiempoResolucion.Value > 0)
+                                    {
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <span class="material-symbols-outlined text-base text-@estadoSla">engineering</span>
+                                                <h3 class="font-medium text-gray-500 dark:text-gray-400">
+                                                    @if (estaCerrado)
+                                                    {
+                                                        @:Tiempo de resolución:
+                                                    }
+                                                    else
+                                                    {
+                                                        @:Progreso resolución:
+                                                    }
+                                                </h3>
+                                                <span class="font-medium text-@estadoSla">@horasTranscurridas/@ticket.TiempoResolucion.Value horas</span>
+                                            </div>
+                                            <!-- Barra de progreso -->
+                                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                                <div class="bg-@estadoSla h-2 rounded-full" style="width: @(Math.Min(porcentajeProgreso, 100))%"></div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="flex justify-end gap-2 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                        <a href="@Url.Action("Details", "Ticket", new { id = ticket.IdTicket })" class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">visibility</span> Ver Detalle
+                                        </a>
+                                        @if (!estaCerrado)
+                                        {
+                                            <a href="@Url.Action("UpdateEstado", "Ticket", new { ticketId = ticket.IdTicket })" class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-sm">change_circle</span> Cambiar Estado
+                                            </a>
+                                        }
+                                        <a href="#" class="text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">add_comment</span> Agregar Comentario
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-gray-500 dark:text-gray-400 text-center py-8">No tienes tickets asignados por el momento.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

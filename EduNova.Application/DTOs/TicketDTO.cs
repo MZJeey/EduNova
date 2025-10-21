@@ -26,7 +26,30 @@ namespace EduNova.Application.DTOs
         public string? NombreSolicitante { get; set; }
         public int? TiempoRespuesta { get; set; }
         public int? TiempoResolucion { get; set; }
-        
+        // Lista de todas las imágenes
+        public List<ImagenDTO>? Imagenes { get; set; }
+
+
+        public int horasRestantes()
+        {
+            if (TiempoResolucion == null)
+                return 0; // No hay SLA definido
+
+            // Si el ticket ya está cerrado, el tiempo restante es 0
+            // PERO solo si el estado es "Cerrado" o similar
+            if (Estado?.ToLower() == "cerrado" || Estado?.ToLower() == "completado")
+                return 0;
+
+            // Calculamos la fecha límite sumando las horas del SLA a la fecha de creación
+            DateTime fechaLimite = FechaCreacion.AddHours(TiempoResolucion.Value);
+
+            // Calculamos la diferencia con la fecha actual
+            TimeSpan tiempoRestante = fechaLimite - DateTime.Now;
+
+            // Devolvemos las horas restantes (puede ser negativo si está vencido)
+            return (int)tiempoRestante.TotalHours;
+        }
+
 
 
     }

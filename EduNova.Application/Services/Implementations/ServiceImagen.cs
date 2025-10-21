@@ -17,7 +17,7 @@ namespace EduNova.Application.Services.Implementations
         private readonly IRepositoryImagen _repository;
         private readonly IMapper _mapper;
         private readonly eduNovaContext _context;
-        //private readonly IWebHostEnvironment _hostingEnvironment;
+     
 
         public ServiceImagen(IRepositoryImagen repositoryImagen, IMapper mapper, eduNovaContext eduNovaContext)
         {
@@ -35,16 +35,18 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<ImagenDTO> FindByIdAsync(int id)
+        public async Task< List<ImagenDTO>> FindByIdAsync(int id)
         {
             var imagenes = await _repository.FindByIdAsync(id);
-            return imagenes.Select (i => new ImagenDTO
+
+            return imagenes.Select(i => new ImagenDTO
             {
-                IdImagen = i.IdImagen,
+                IdTicket = (int)i.IdTicket,
                 Url = $"/uploads/{i.Imagen}",
-               
-                Id = i.IdImagen
+                IdImagen = i.IdImagen
             }).ToList();
+
+          
         }
 
         public Task<ICollection<ImagenDTO>> ListAsync()

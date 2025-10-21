@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +19,13 @@ namespace EduNova.Application.Services.Implementations
     public class ServiceTickets : IServiceTickets
     {
         private readonly IRepositoryTickets _repository;
+        private readonly IServiceImagen _ServiceImagen;
         private readonly IMapper _mapper;
         private readonly eduNovaContext _context;
-        public ServiceTickets(IRepositoryTickets repositoryTickets, IMapper mapper, eduNovaContext eduNovaContext)
+        public ServiceTickets(IRepositoryTickets repositoryTickets,IServiceImagen ServiceImagen, IMapper mapper, eduNovaContext eduNovaContext)
         {
             _repository = repositoryTickets;
+           _ServiceImagen = ServiceImagen;
             _mapper = mapper;
             _context = eduNovaContext;
         }
@@ -110,6 +113,7 @@ namespace EduNova.Application.Services.Implementations
                     FechaCreacion = t.FechaCreacion,
                     Prioridad = t.Prioridad,
                     Estado = t.Estado,
+                    valoracion = t.Valoracion,
 
 
 
@@ -118,12 +122,30 @@ namespace EduNova.Application.Services.Implementations
                     NombreSolicitante = t.UsuarioSolicitanteNavigation.Nombre,
                     NombreSla = t.IdSlaNavigation.Nombre,
                     TiempoRespuesta = t.IdSlaNavigation.TiempoMaxRespuesta,
-                    TiempoResolucion = t.IdSlaNavigation.TiempoMaxResolucion
-                    
+                    TiempoResolucion = t.IdSlaNavigation.TiempoMaxResolucion,
+                   
+
                 })
                 .FirstOrDefaultAsync();
+            if (ticketDTO != null)
 
+            {
+                               ticketDTO.Imagenes = await _ServiceImagen.FindByIdAsync(ticketDTO.IdTicket);
+            }
             return ticketDTO;
+            //var ticket = await _context.Tickets
+            //   .Include(t => t.IdCategoriaNavigation)
+            //   .Include(t => t.UsuarioSolicitanteNavigation)
+            //   .Include(t => t.IdSlaNavigation)
+
+            //   .Include(t => t.Imagenes)
+            //   .FirstOrDefaultAsync(t => t.IdTicket == id);
+            //var ticketDTO = _mapper.Map<TicketDTO>(ticket);
+            //ticketDTO.Imagenes = await _ServiceImagen.FindByIdAsync(ticket.IdTicket);
+
+
+
+            //return ticketDTO;
         }
 
         public async Task<ICollection<TicketDTO>> GetAllAsync()
@@ -132,6 +154,33 @@ namespace EduNova.Application.Services.Implementations
             var listaMapeada = _mapper.Map<List<TicketDTO>>(collection);
           return listaMapeada;
         }
+
+        public async Task<ICollection<TicketDTO>> GetTicketsByUserIdAsync(int userId)
+        {
+            // Obtener los tickets desde el repositorio
+            var ticketsDb = await _repository.GetTicketsByUserIdAsync(userId);
+
+            // Mapear manualmente al DTO, usando protección contra null
+            var ticketsDto = ticketsDb.Select(t => new TicketDTO
+            {
+                IdTicket = t.IdTicket,
+                Titulo = t.Titulo,
+                Descripcion = t.Descripcion,
+                Estado = t.Estado,
+                Prioridad = t.Prioridad,
+                valoracion = t.Valoracion,
+                UsuarioSolicitante = t.UsuarioSolicitante,
+                NombreCategoria = t.IdCategoriaNavigation?.Nombre ?? "Sin categoría",
+                NombreSolicitante = t.UsuarioSolicitanteNavigation?.Nombre ?? "Desconocido",
+                NombreSla = t.IdSlaNavigation?.Nombre ?? "Sin SLA",
+                TiempoRespuesta = t.IdSlaNavigation?.TiempoMaxRespuesta,
+                TiempoResolucion = t.IdSlaNavigation?.TiempoMaxResolucion
+            }).ToList();
+
+            return ticketsDto;
+        }
+
+
 
         public Task UpdateAsync(Tickets entity)
         {
@@ -143,6 +192,28 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-       
+        public async Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado)
+        {
+            var ticket = await _context.Tickets
+                .FirstOrDefaultAsync(t => t.IdTicket== ticketId);
+
+        
+
+            ticket.Estado = nuevoEstado;
+            
+
+            await _context.SaveChangesAsync();
+
+            // Usar AutoMapper para convertir a DTO
+
+            var ticketDto = new TicketDTO
+            {
+                IdTicket = ticket.IdTicket,
+                Estado = ticket.Estado,
+                // asigna otros campos que necesites
+            };
+
+           
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace EduNova.Infraestructure.Repository.Interfaces
         Task<Tickets> FindByIdAsync(int id);
         Task<List<Tickets>> GetAllAsync();
         Task UpdateAsync(Tickets entity);
+        Task<List<Tickets>> GetTicketsByUserIdAsync(int userId);
+        Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado);
     }
 }
