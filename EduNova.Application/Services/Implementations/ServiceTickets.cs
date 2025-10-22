@@ -174,7 +174,12 @@ namespace EduNova.Application.Services.Implementations
                 NombreSolicitante = t.UsuarioSolicitanteNavigation?.Nombre ?? "Desconocido",
                 NombreSla = t.IdSlaNavigation?.Nombre ?? "Sin SLA",
                 TiempoRespuesta = t.IdSlaNavigation?.TiempoMaxRespuesta,
-                TiempoResolucion = t.IdSlaNavigation?.TiempoMaxResolucion
+                TiempoResolucion = t.IdSlaNavigation?.TiempoMaxResolucion,
+                FechaCreacion = t.FechaCreacion,
+                FechaCierre = t.FechaCierre,
+    
+
+
             }).ToList();
 
             return ticketsDto;

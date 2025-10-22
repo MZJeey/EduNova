@@ -16,5 +16,6 @@ namespace EduNova.Infraestructure.Repository.Interfaces
         Task<Usuario?> FindByIdAsync(int id);
         Task UpdateAsync();
 
+        Task<Usuario?> LoginAsync(string correo,string clave);
     }
 }

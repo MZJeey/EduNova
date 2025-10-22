@@ -1,3 +1,4 @@
+using EduNova.Application.Config;
 using EduNova.Application.DTOs;
 using EduNova.Application.Profiles;
 using EduNova.Application.Services.Implementations;
@@ -13,6 +14,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.Configure<AppConfig>(builder.Configuration.GetSection("AppConfig"));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -23,6 +26,9 @@ builder.Services.AddTransient<IRepositoryTickets, RepositoryTickets>();
 builder.Services.AddTransient<IRepositoryHistorialTicket, RepositoryHistorialTicket>();
 builder.Services.AddTransient<IRepositoryImagen, RepositoryImagen>();
 //servicios
+
+
+
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
 builder.Services.AddTransient<IServiceTickets, ServiceTickets>();

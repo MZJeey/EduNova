@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AvilShop.Application.Utils;
 using EduNova.Application.Config;
 using EduNova.Application.DTOs;
 using EduNova.Application.Services.Interfaces;
@@ -22,20 +23,21 @@ namespace EduNova.Application.Services.Implementations
     {
         private readonly IRepositoryUsuario _repository;
         private readonly IMapper _mapper;
-
+        private readonly IOptions<AppConfig> _options;
         private readonly eduNovaContext _context;
         private readonly ILogger<ServiceUsuario> _logger;
-
+        private readonly AppConfig _appConfig;
 
 
         public ServiceUsuario(IRepositoryUsuario repository, IMapper mapper,eduNovaContext context,
-        ILogger<ServiceUsuario> logger) // ← Y ESTE)
+        ILogger<ServiceUsuario> logger, IOptions<AppConfig> options) 
         {
             _repository = repository;
             _mapper = mapper;
             _context = context;
             _logger = logger;
-
+            _options = options;
+            
         }
         public async Task<int> AddAsync(UsuarioDTO dto)
         {
@@ -82,9 +84,53 @@ namespace EduNova.Application.Services.Implementations
             return collection;
         }
 
-        public Task<UsuarioDTO> LoginAsync(string id, string password)
+        public async Task<UsuarioDTO> LoginAsync(string correo, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logger.LogInformation($"Intentando login para: {correo}");
+
+                // Buscar usuario por email
+                var usuario = await _context.Set<Usuario>()
+                                          .FirstOrDefaultAsync(u => u.Correo == correo);
+
+                if (usuario == null)
+                {
+                    _logger.LogWarning($"Usuario no encontrado: {correo}");
+                    return null;
+                }
+
+                // Encriptar la contraseña para comparar
+                string secret = _appConfig.Crypto.Secret;
+                string passwordEncrypted = Cryptography.Encrypt(password, secret);
+
+                if (usuario.Clave != passwordEncrypted)
+                {
+                    _logger.LogWarning($"Contraseña incorrecta para: {correo}");
+                    return null;
+                }
+
+                //// Actualizar último inicio de sesión
+                //usuario.UltimoInicioSesion = DateTime.UtcNow;
+                //await _context.SaveChangesAsync();
+
+                _logger.LogInformation($"Login exitoso para: {correo}");
+
+                return new UsuarioDTO
+                {
+                    IdUsuario = usuario.IdUsuario,
+                    Correo = usuario.Correo,
+                    idRol = usuario.IdRol,
+                    Clave = usuario.Clave,
+                    Nombre = usuario.Nombre
+                   
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error durante login para: {correo}");
+                return null;
+            }
         }
 
         public Task<string> RegisterAsync(UsuarioDTO dto)

@@ -28,7 +28,7 @@ namespace EduNova.web.Controllers
         }
         public async Task<IActionResult> Asignaciones(int id)
         {
-            var tickets = await _serviceTickets.GetTicketsByUserIdAsync(1);
+            var tickets = await _serviceTickets.GetTicketsByUserIdAsync(3);
             return View(tickets);
         }
 
