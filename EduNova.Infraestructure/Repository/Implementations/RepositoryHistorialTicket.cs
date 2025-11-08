@@ -19,6 +19,14 @@ namespace EduNova.Infraestructure.Repository.Implementations
         {
             _context = context;
         }
+
+        public async Task<string> AddAsync(TicketHistorial entity)
+        {
+            await _context.Set<TicketHistorial>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity.EstadoTickets;
+        }
+
         public async Task<TicketHistorial> FindByIdAsync(int id)
         {
            var @object = await _context.Set<TicketHistorial>()

@@ -343,7 +343,6 @@ public partial class eduNovaContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaCreacion");
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
-            entity.Property(e => e.IdSla).HasColumnName("idSLA");
             entity.Property(e => e.Prioridad)
                 .HasMaxLength(50)
                 .HasColumnName("prioridad");
@@ -359,11 +358,6 @@ public partial class eduNovaContext : DbContext
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tickets_Categoria");
-
-            entity.HasOne(d => d.IdSlaNavigation).WithMany(p => p.Tickets)
-                .HasForeignKey(d => d.IdSla)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Tickets_SLA");
 
             entity.HasOne(d => d.UsuarioSolicitanteNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.UsuarioSolicitante)

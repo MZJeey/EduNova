@@ -8,6 +8,8 @@ using EduNova.Infraestructure.Repository.Implementations;
 using EduNova.Infraestructure.Repository.Interfaces;
 using EduNova.web.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Events;
 using System.Text;
@@ -19,6 +21,7 @@ builder.Services.Configure<AppConfig>(builder.Configuration.GetSection("AppConfi
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 //Repositorios
 builder.Services.AddTransient<IRepositoryUsuario,RepositoryUsuario>();
 builder.Services.AddTransient<IRepositoyCategoria, RepositoryCategoria>();
@@ -87,6 +90,8 @@ var app = builder.Build();
 
 
 
+//app.UseRequestLocalization();
+var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 
 
 
@@ -109,7 +114,17 @@ else
     // Error control Middleware
     app.UseMiddleware<ErrorHandlingMiddleware>();
 }
- 
+
+
+// Configurar archivos estáticos
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.WebRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
+
 //Activar soporte a la solicitud de registro con SERILOG 
 app.UseSerilogRequestLogging();
 

@@ -12,5 +12,6 @@ namespace EduNova.Infraestructure.Repository.Interfaces
         Task<TicketHistorial> FindByIdAsync(int id);
         Task<List<TicketHistorial>> GetAllAsync();
         Task UpdateAsync(TicketHistorial entity);
+        Task<string> AddAsync(TicketHistorial entity);
     }
 }

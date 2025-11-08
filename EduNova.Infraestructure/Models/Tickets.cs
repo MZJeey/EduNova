@@ -21,15 +21,11 @@ public partial class Tickets
 
     public int IdCategoria { get; set; }
 
-    public int IdSla { get; set; }
-
     public string? Valoracion { get; set; }
 
     public string? Estado { get; set; }
 
     public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
-
-    public virtual Sla IdSlaNavigation { get; set; } = null!;
 
     public virtual ICollection<Imagenes> Imagenes { get; set; } = new List<Imagenes>();
 

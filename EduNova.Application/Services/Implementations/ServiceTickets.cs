@@ -20,23 +20,43 @@ namespace EduNova.Application.Services.Implementations
     {
         private readonly IRepositoryTickets _repository;
         private readonly IServiceImagen _ServiceImagen;
+        private readonly IServiceHistorialTicket _HistorialTicket;
         private readonly IMapper _mapper;
         private readonly eduNovaContext _context;
-        public ServiceTickets(IRepositoryTickets repositoryTickets,IServiceImagen ServiceImagen, IMapper mapper, eduNovaContext eduNovaContext)
+        public ServiceTickets(IRepositoryTickets repositoryTickets,IServiceImagen ServiceImagen, IMapper mapper, eduNovaContext eduNovaContext, IServiceHistorialTicket historialTicket)
         {
             _repository = repositoryTickets;
-           _ServiceImagen = ServiceImagen;
+            _ServiceImagen = ServiceImagen;
             _mapper = mapper;
             _context = eduNovaContext;
-        }
-        public Task<int> AddAsync(Tickets entity)
-        {
-            throw new NotImplementedException();
+            _HistorialTicket = historialTicket;
         }
 
-        public Task<int> AddAsync(TicketDTO entity)
+
+
+        public async Task<int> AddAsync(TicketDTO entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            var objectMapped = _mapper.Map<Tickets>(entity);
+
+            objectMapped.IdTicket = 0; // Asegurar que el ID es 0 para nuevas inserciones
+                                        // Agregar a la base de datos
+            await _context.Tickets.AddAsync(objectMapped);
+             await _context.SaveChangesAsync();
+            if(entity.ImagenesArchivo != null && entity.ImagenesArchivo.Count>0)
+            {
+                await _ServiceImagen.AddAsync(objectMapped.IdTicket, entity.ImagenesArchivo);
+            }
+
+            return objectMapped.IdTicket;
+
+
+        }
+        public async Task ImagenesTicket(int idTicket, TicketDTO dTO)
+        {
+            await _ServiceImagen.AddAsync(idTicket, dTO.ImagenesArchivo);
         }
 
         //  var categoria = await _context.Categoria
@@ -120,9 +140,9 @@ namespace EduNova.Application.Services.Implementations
                     // Mapea propiedades de las navegaciones
                     NombreCategoria = t.IdCategoriaNavigation.Nombre,
                     NombreSolicitante = t.UsuarioSolicitanteNavigation.Nombre,
-                    NombreSla = t.IdSlaNavigation.Nombre,
-                    TiempoRespuesta = t.IdSlaNavigation.TiempoMaxRespuesta,
-                    TiempoResolucion = t.IdSlaNavigation.TiempoMaxResolucion,
+                    NombreSla = t.IdCategoriaNavigation.IdSlaNavigation.Nombre,
+                    TiempoRespuesta = t.IdCategoriaNavigation.IdSlaNavigation.TiempoMaxRespuesta,
+                    TiempoResolucion = t.IdCategoriaNavigation.IdSlaNavigation.TiempoMaxResolucion,
                    
 
                 })
@@ -172,9 +192,9 @@ namespace EduNova.Application.Services.Implementations
                 UsuarioSolicitante = t.UsuarioSolicitante,
                 NombreCategoria = t.IdCategoriaNavigation?.Nombre ?? "Sin categoría",
                 NombreSolicitante = t.UsuarioSolicitanteNavigation?.Nombre ?? "Desconocido",
-                NombreSla = t.IdSlaNavigation?.Nombre ?? "Sin SLA",
-                TiempoRespuesta = t.IdSlaNavigation?.TiempoMaxRespuesta,
-                TiempoResolucion = t.IdSlaNavigation?.TiempoMaxResolucion,
+                NombreSla = t.IdCategoriaNavigation.IdSlaNavigation?.Nombre ?? "Sin SLA",
+                TiempoRespuesta = t.IdCategoriaNavigation.IdSlaNavigation?.TiempoMaxRespuesta,
+                TiempoResolucion = t.IdCategoriaNavigation.IdSlaNavigation?.TiempoMaxResolucion,
                 FechaCreacion = t.FechaCreacion,
                 FechaCierre = t.FechaCierre,
     
@@ -200,25 +220,43 @@ namespace EduNova.Application.Services.Implementations
         public async Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado)
         {
             var ticket = await _context.Tickets
-                .FirstOrDefaultAsync(t => t.IdTicket== ticketId);
+                .FirstOrDefaultAsync(t => t.IdTicket == ticketId);
 
-        
 
+
+            var estadoAnterior = ticket.Estado;
             ticket.Estado = nuevoEstado;
+
             
-
-            await _context.SaveChangesAsync();
-
+         
             // Usar AutoMapper para convertir a DTO
 
             var ticketDto = new TicketDTO
             {
+
                 IdTicket = ticket.IdTicket,
                 Estado = ticket.Estado,
-                // asigna otros campos que necesites
+               
+            };
+            await _context.SaveChangesAsync();
+            var usuarioExiste = await _context.Usuario
+                    .AnyAsync(u => u.IdUsuario == ticket.UsuarioSolicitante);
+            //se crea en el historial
+            var historialDto = new HistorialTicketDTO
+            {
+                IdTicket = ticket.IdTicket,
+                FechaCambio = DateTime.Now,
+               IdUsuarioCambio=ticket.UsuarioSolicitante,
+                EstadoNuevo = nuevoEstado,
+              
             };
 
-           
+            await _HistorialTicket.CreateHistorialTicket(historialDto);
+
         }
+
+
+
     }
 }
+

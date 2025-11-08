@@ -16,6 +16,4 @@ public partial class Sla
     public string Descripcion { get; set; } = null!;
 
     public virtual ICollection<Categoria> Categoria { get; set; } = new List<Categoria>();
-
-    public virtual ICollection<Tickets> Tickets { get; set; } = new List<Tickets>();
 }

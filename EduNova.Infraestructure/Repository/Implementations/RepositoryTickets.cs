@@ -19,10 +19,15 @@ namespace EduNova.Infraestructure.Repository.Implementations
         {
             _context = context;
         }
-        public Task<int> AddAsync(Tickets entity)
+        // En tu repositorio genérico
+        public async Task<int> AddAsync(Tickets entity)
         {
-            throw new NotImplementedException();
+            await _context.Set<Tickets>().AddAsync(entity);
+            var result = await _context.SaveChangesAsync();
+            return result; // ✅ Retorna 1 si se guardó correctamente
         }
+
+
 
         public Task DeleteAsync(int id)
         {
@@ -48,7 +53,7 @@ namespace EduNova.Infraestructure.Repository.Implementations
                 .Where(t => t.UsuarioSolicitante == userId)
                 .Include(t => t.IdCategoriaNavigation)
                 .Include(t => t.UsuarioSolicitanteNavigation)
-                .Include(t => t.IdSlaNavigation)
+                
                 .ToListAsync();
 
             return tickets;

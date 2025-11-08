@@ -1,6 +1,9 @@
 ﻿using EduNova.Application.DTOs;
 using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +19,10 @@ namespace EduNova.Application.DTOs
         public DateTime? FechaCierre { get; set; }
         public string Estado { get; set; }
         public string Prioridad { get; set; } = null!;
-        public string valoracion { get; set; } = null!;
+        public string? valoracion { get; set; }
         public int UsuarioSolicitante { get; set; }
         public int IdCategoria { get; set; }
-        public int IdSla { get; set; }
+        
         public string? NombreCategoria { get; set; }
         public string? NombreSla { get; set; }
         public string? NombreSolicitante { get; set; }
@@ -27,7 +30,9 @@ namespace EduNova.Application.DTOs
         public int? TiempoResolucion { get; set; }
         public List<ImagenDTO>? Imagenes { get; set; }
 
-        // CORRECCIÓN: Calcular desde fecha creación hasta ahora (o hasta cierre si está cerrado)
+        [Display(Name = "Imágenes del tickets")]
+        public List<IFormFile>? ImagenesArchivo { get; set; } // Nombre corregido
+
         public double HorasTranscurridas
         {
             get

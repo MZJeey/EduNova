@@ -18,5 +18,6 @@ namespace EduNova.Application.Services.Interfaces
         Task UpdateAsync(TicketDTO entity);
         Task<ICollection<TicketDTO>> GetTicketsByUserIdAsync(int userId);
         Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado);
+        Task ImagenesTicket(int idTicket, TicketDTO dTO);
     }
 }

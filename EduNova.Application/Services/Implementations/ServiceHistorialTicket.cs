@@ -2,6 +2,7 @@
 using EduNova.Application.DTOs;
 using EduNova.Application.Services.Interfaces;
 using EduNova.Infraestructure.Data;
+using EduNova.Infraestructure.Models;
 using EduNova.Infraestructure.Repository.Implementations;
 using EduNova.Infraestructure.Repository.Interfaces;
 using System;
@@ -24,9 +25,20 @@ namespace EduNova.Application.Services.Implementations
             _mapper = mapper;
             _context = eduNovaContext;
         }
-        public Task<HistorialTicketDTO> CreateHistorialTicket(HistorialTicketDTO historialTicketDto)
+        public async Task<HistorialTicketDTO> CreateHistorialTicket(HistorialTicketDTO historialTicketDto)
         {
-            throw new NotImplementedException();
+            if (historialTicketDto == null)
+                throw new ArgumentNullException(nameof(historialTicketDto));
+
+            var objectMapped = _mapper.Map<TicketHistorial>(historialTicketDto);
+            objectMapped.IdHistorial = 0; // aseguramos que sea nuevo
+
+            await _context.TicketHistorial.AddAsync(objectMapped);
+            await _context.SaveChangesAsync(); 
+
+            // Mapear de nuevo al DTO con el Id generado
+            var result = _mapper.Map<HistorialTicketDTO>(objectMapped);
+            return result;
         }
 
         public Task<bool> DeleteHistorialTicket(int id)

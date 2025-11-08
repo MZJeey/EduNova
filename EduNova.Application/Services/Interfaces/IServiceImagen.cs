@@ -1,4 +1,5 @@
 ﻿using EduNova.Application.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace EduNova.Application.Services.Interfaces
     {
         Task<ICollection<ImagenDTO>> ListAsync();
         Task< List<ImagenDTO>> FindByIdAsync(int id);
-        Task<int> AddAsync(ImagenDTO dto);
+        Task AddAsync(int idTicket,List<IFormFile> imagenes);
         Task DeleteAsync(int id);
         Task UpdateAsync(int id, ImagenDTO dto);
     }

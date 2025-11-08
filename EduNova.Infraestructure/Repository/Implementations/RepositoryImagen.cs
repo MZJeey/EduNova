@@ -17,9 +17,10 @@ namespace EduNova.Infraestructure.Repository.Implementations
         {
             _context = context;
         }
-        public Task AddAsync(Imagenes imagenes)
+        public async Task AddAsync(Imagenes imagenes)
         {
-            throw new NotImplementedException();
+           await _context.Imagenes.AddAsync(imagenes);
+              await _context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(int id)
