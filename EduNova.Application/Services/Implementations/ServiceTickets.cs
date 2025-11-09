@@ -255,8 +255,10 @@ namespace EduNova.Application.Services.Implementations
 
         }
 
-
-
+        public async Task<ICollection<TicketDTO>> GetByUserAsync(int usuarioId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

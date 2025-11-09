@@ -25,7 +25,11 @@ public partial class Tickets
 
     public string? Estado { get; set; }
 
+    public int? IdRol { get; set; }
+
     public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
+
+    public virtual Rol? IdRolNavigation { get; set; }
 
     public virtual ICollection<Imagenes> Imagenes { get; set; } = new List<Imagenes>();
 

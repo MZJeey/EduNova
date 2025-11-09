@@ -12,11 +12,13 @@ namespace EduNova.web.Controllers
         private readonly IServiceTickets _serviceTickets;
         private readonly IserviceCategoria _ServiceCategoria;
         private readonly IServiceImagen _serviceImagen;
-        public TicketController(IServiceTickets serviceTickets, IserviceCategoria serviceCategoria, IServiceImagen serviceImagen)
+        private readonly IServiceEtiqueta _serviceEtiqueta;
+        public TicketController(IServiceTickets serviceTickets, IserviceCategoria serviceCategoria, IServiceImagen serviceImagen, IServiceEtiqueta serviceEtiqueta)
         {
             _serviceTickets = serviceTickets;
             _ServiceCategoria = serviceCategoria;
             _serviceImagen = serviceImagen;
+            _serviceEtiqueta = serviceEtiqueta;
         }
         public async Task<IActionResult> Index()
         {
@@ -52,6 +54,7 @@ namespace EduNova.web.Controllers
         public async Task<IActionResult> Create()
         {
             await CargarCategorias();
+            await cargarEtiquetas();
             return View();
         }
 
@@ -60,13 +63,27 @@ namespace EduNova.web.Controllers
             var categorias = await _ServiceCategoria.ListAsync();
             ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nombre");
         }
+        private async Task cargarEtiquetas()
+        {
+            var etiquetas = await _serviceEtiqueta.ListAsync();
+
+            // Crear SelectList con data attributes adicionales
+            var etiquetasList = etiquetas.Select(e => new {
+                Value = e.IdEtiqueta.ToString(),
+                Text = e.Nombre,
+                IdCategoria = e.IdCategoria,
+                NombreCategoria = e.NombreCategoria // Asegúrate que esta propiedad esté poblada
+            }).ToList();
+
+            ViewBag.Etiquetas = etiquetasList;
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(TicketDTO ticket)
         {
             await CargarCategorias();
             ticket.FechaCreacion = DateTime.Now;
-            ticket.Estado = "Abierto";
+            ticket.Estado = "Pendiente";
             ticket.UsuarioSolicitante = 3; // o el usuario autenticado
 
             if (ModelState.IsValid)

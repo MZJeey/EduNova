@@ -44,9 +44,19 @@ namespace EduNova.Application.Services.Implementations
 
         public async Task<ICollection<EtiquetaDTO>> ListAsync()
         {
-
             var collection = await _repository.ListAsync();
-            return _mapper.Map<ICollection<EtiquetaDTO>>(collection);
+            var etiquetasDTO = _mapper.Map<ICollection<EtiquetaDTO>>(collection);
+
+            // Obtener todas las categorías para mapear los nombres
+            var categorias = await _context.Categoria.ToDictionaryAsync(c => c.IdCategoria, c => c.Nombre);
+
+            // Asignar el nombre de la categoría basado en IdCategoria
+            foreach (var etiqueta in etiquetasDTO)
+            {
+                etiqueta.NombreCategoria = categorias.GetValueOrDefault(etiqueta.IdCategoria);
+            }
+
+            return etiquetasDTO;
         }
 
         public Task UpdateAsync(EtiquetaDTO entity)

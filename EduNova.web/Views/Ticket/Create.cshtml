@@ -1,5 +1,4 @@
-﻿
-@model EduNova.Application.DTOs.TicketDTO
+﻿@model EduNova.Application.DTOs.TicketDTO
 
 @{
     ViewData["Title"] = "Crear Nuevo Ticket";
@@ -70,15 +69,11 @@
     <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
         <div class="layout-container flex h-full grow flex-col">
 
-
             <main class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
                 <div class="w-full max-w-4xl">
-                    <div class="flex flex-wrap justify-between gap-4 p-4 items-center">
-                        <h1 class="text-text-light dark:text-text-dark text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Crear Nuevo Ticket</h1>
-                    </div>
+                   
 
                     <div class="bg-content-light dark:bg-content-dark p-6 sm:p-8 rounded-xl shadow-sm border border-border-light dark:border-border-dark mt-4">
-                        <!-- SOLO CAMBIO: agregar enctype="multipart/form-data" -->
                         <form asp-action="Create" method="post" enctype="multipart/form-data" class="space-y-8">
                             <div asp-validation-summary="ModelOnly" class="validation-error"></div>
 
@@ -111,16 +106,38 @@
                                     <span asp-validation-for="Prioridad" class="validation-error"></span>
                                 </label>
 
+                                <!-- Selector de Etiquetas -->
                                 <label class="flex flex-col min-w-40 flex-1">
-                                    <p class="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">Categoría</p>
-                                    <select asp-for="IdCategoria" asp-items="ViewBag.Categorias" class="form-input">
-                                        <option value="">Seleccionar categoría</option>
+                                    <p class="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">Etiqueta</p>
+                                    <select id="etiquetaSelect" class="form-input">
+                                        <option value="">Seleccionar etiqueta</option>
+                                        @if (ViewBag.Etiquetas != null)
+                                        {
+                                            foreach (var etiqueta in ViewBag.Etiquetas)
+                                            {
+                                                <option value="@etiqueta.Value"
+                                                        data-categoria-id="@etiqueta.IdCategoria"
+                                                        data-categoria-nombre="@etiqueta.NombreCategoria">
+                                                    @etiqueta.Text
+                                                </option>
+                                            }
+                                        }
                                     </select>
-                                    <span asp-validation-for="IdCategoria" class="validation-error"></span>
                                 </label>
                             </div>
 
-                            <!-- Campo Estado oculto si no es necesario -->
+                            <!-- Campo para mostrar categoría automáticamente -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <label class="flex flex-col min-w-40 flex-1">
+                                    <p class="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">Categoría Asignada</p>
+                                    <input type="text" id="categoriaDisplay" class="form-input" readonly placeholder="Selecciona una etiqueta primero" />
+                                </label>
+
+                                <!-- Campo oculto para Categoría (se llena automáticamente) -->
+                                <input type="hidden" asp-for="IdCategoria" id="IdCategoria" />
+                            </div>
+
+                            <!-- Campo Estado oculto -->
                             <input type="hidden" asp-for="Estado" value="Abierto" />
                             <input type="hidden" asp-for="UsuarioSolicitante" value="3" />
 
@@ -133,7 +150,7 @@
                                 </label>
                             </div>
 
-                            <!-- Campo para imágenes - Manteniendo el mismo estilo -->
+                            <!-- Campo para imágenes -->
                             <div class="grid grid-cols-1 gap-8">
                                 <label class="flex flex-col min-w-40 flex-1">
                                     <p class="text-text-light dark:text-text-dark text-base font-medium leading-normal pb-2">Imágenes (Opcional)</p>
@@ -160,6 +177,25 @@
             </main>
         </div>
     </div>
+
+    <!-- JavaScript para el filtro de etiquetas -->
+    <script>
+        document.getElementById('etiquetaSelect').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var categoriaId = selectedOption.getAttribute('data-categoria-id');
+            var categoriaNombre = selectedOption.getAttribute('data-categoria-nombre');
+
+            if (this.value && categoriaId && categoriaNombre) {
+                // Mostrar la categoría y asignar al campo oculto
+                document.getElementById('categoriaDisplay').value = categoriaNombre;
+                document.getElementById('IdCategoria').value = categoriaId;
+            } else {
+                // Limpiar si no hay selección
+                document.getElementById('categoriaDisplay').value = '';
+                document.getElementById('IdCategoria').value = '';
+            }
+        });
+    </script>
 
     @section Scripts {
         @{

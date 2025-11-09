@@ -47,6 +47,34 @@ namespace EduNova.Infraestructure.Repository.Implementations
             return collection;
         }
 
+        public async Task<ICollection<Tickets>> GetByUserAsync(int usuarioId)
+        {
+            // Obtener el usuario con su rol
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(u => u.IdUsuario == usuarioId);
+
+            if (usuario == null)
+                return new List<Tickets>();
+
+            IQueryable<Tickets> query = _context.Tickets;
+
+            // Filtrar según el rol del usuario
+            query = usuario.IdRol switch
+            {
+                1 => query, // Administrador ve todos los tickets
+                3 => query, // Soporte/Técnico ve todos los tickets
+                2 => query.Where(t => t.UsuarioSolicitante == usuarioId), // Usuario normal ve solo los suyos
+                _ => query.Where(t => t.UsuarioSolicitante == usuarioId) // Por defecto, igual que usuario normal
+            };
+
+            return await query.ToListAsync();
+        }
+
+        public Task<ICollection<Tickets>> GetByUserRoleAsync(int usuarioId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Tickets>> GetTicketsByUserIdAsync(int userId)
         {
             var tickets = await _context.Set<Tickets>()

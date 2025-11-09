@@ -47,7 +47,9 @@ namespace EduNova.Infraestructure.Repository.Implementations
 
         public async Task<ICollection<Etiqueta>> ListAsync()
         {
-            var collection = await _context.Etiqueta.Include(c => c.IdCategoria).ToListAsync();
+            var collection = await _context.Etiqueta
+        .Include(e => e.IdCategoriaNavigation)  
+        .ToListAsync();
             return collection;
         }
 

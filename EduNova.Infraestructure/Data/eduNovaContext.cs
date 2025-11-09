@@ -359,6 +359,10 @@ public partial class eduNovaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tickets_Categoria");
 
+            entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.IdRol)
+                .HasConstraintName("FK_Tickets_RolAsignado");
+
             entity.HasOne(d => d.UsuarioSolicitanteNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.UsuarioSolicitante)
                 .OnDelete(DeleteBehavior.ClientSetNull)
