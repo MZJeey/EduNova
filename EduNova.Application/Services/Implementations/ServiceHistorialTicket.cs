@@ -5,6 +5,7 @@ using EduNova.Infraestructure.Data;
 using EduNova.Infraestructure.Models;
 using EduNova.Infraestructure.Repository.Implementations;
 using EduNova.Infraestructure.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,10 +53,17 @@ namespace EduNova.Application.Services.Implementations
             return _mapper.Map<ICollection<HistorialTicketDTO>>(historialTickets);
         }
 
-        public Task<HistorialTicketDTO> GetHistorialTicketById(int id)
+        public async Task<List<HistorialTicketDTO>> GetHistorialTicketById(int id)
         {
-            throw new NotImplementedException();
+            var historial = await _context.Set<TicketHistorial>()
+                                          .Where(e => e.IdTicket == id)
+                                          .OrderByDescending(e => e.FechaCambio)
+                                          .ToListAsync();
+
+            return _mapper.Map<List<HistorialTicketDTO>>(historial);
         }
+
+
 
         public Task<HistorialTicketDTO> UpdateHistorialTicket(int id, HistorialTicketDTO historialTicketDto)
         {

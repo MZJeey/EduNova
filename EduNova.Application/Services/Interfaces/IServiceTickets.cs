@@ -15,7 +15,7 @@ namespace EduNova.Application.Services.Interfaces
         Task DeleteAsync(int id);
         Task<TicketDTO> FindByIdAsync(int id);
         Task<ICollection<TicketDTO>> GetAllAsync();
-        Task UpdateAsync(TicketDTO entity);
+        Task UpdateAsync( int id,TicketDTO dTO);
         Task<ICollection<TicketDTO>> GetTicketsByUserIdAsync(int userId);
         Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado);
         Task ImagenesTicket(int idTicket, TicketDTO dTO);

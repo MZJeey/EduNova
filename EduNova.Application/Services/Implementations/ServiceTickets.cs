@@ -101,24 +101,7 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-        //public async Task<TicketDTO> FindByIdAsync(int id)
-        //{
-        //    var ticket = await _context.Tickets.Include
-        //        (c => c.IdCategoriaNavigation)
-        //        .Include(c => c.IdCategoriaNavigation.Nombre)
-        //         .Include(c => c.UsuarioSolicitanteNavigation)
-        //         .Include(c => c.IdSlaNavigation)
-        //         .Include(c => c.IdSlaNavigation.Nombre)
-        //          .Include(c => c.IdSlaNavigation.TiempoMaxRespuesta)
-        //          .Include(c => c.IdSlaNavigation.TiempoMaxResolucion)
-
-
-
-        //         .FirstOrDefaultAsync(c => c.IdTicket == id);
-        //    return _mapper.Map<TicketDTO>(ticket);
-
-
-        //}
+      
         public async Task<TicketDTO> FindByIdAsync(int id)
         {
             var ticketDTO = await _context.Tickets
@@ -147,25 +130,21 @@ namespace EduNova.Application.Services.Implementations
 
                 })
                 .FirstOrDefaultAsync();
+            //Esta parte es del historial 
+
+            //var ticket = await _HistorialTicket.GetHistorialTicketById(id);
+
+
             if (ticketDTO != null)
 
             {
                                ticketDTO.Imagenes = await _ServiceImagen.FindByIdAsync(ticketDTO.IdTicket);
+                ticketDTO.HistorialTickets = await _HistorialTicket.GetHistorialTicketById(ticketDTO.IdTicket);
+               
+
             }
             return ticketDTO;
-            //var ticket = await _context.Tickets
-            //   .Include(t => t.IdCategoriaNavigation)
-            //   .Include(t => t.UsuarioSolicitanteNavigation)
-            //   .Include(t => t.IdSlaNavigation)
-
-            //   .Include(t => t.Imagenes)
-            //   .FirstOrDefaultAsync(t => t.IdTicket == id);
-            //var ticketDTO = _mapper.Map<TicketDTO>(ticket);
-            //ticketDTO.Imagenes = await _ServiceImagen.FindByIdAsync(ticket.IdTicket);
-
-
-
-            //return ticketDTO;
+            
         }
 
         public async Task<ICollection<TicketDTO>> GetAllAsync()
@@ -207,15 +186,21 @@ namespace EduNova.Application.Services.Implementations
 
 
 
-        public Task UpdateAsync(Tickets entity)
+        public async Task UpdateAsync( int id,TicketDTO dTO)
         {
-            throw new NotImplementedException();
+                
+         var ticket=  _mapper.Map<Tickets>(dTO);
+      
+            await _repository.UpdateAsync(ticket);
+
+            if (dTO.ImagenesArchivo != null && dTO.ImagenesArchivo.Count > 0)
+            {
+                await _ServiceImagen.AddAsync(id, dTO.ImagenesArchivo);
+            }
         }
 
-        public Task UpdateAsync(TicketDTO entity)
-        {
-            throw new NotImplementedException();
-        }
+
+
 
         public async Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado)
         {
@@ -257,8 +242,32 @@ namespace EduNova.Application.Services.Implementations
 
         public async Task<ICollection<TicketDTO>> GetByUserAsync(int usuarioId)
         {
-            throw new NotImplementedException();
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(u => u.IdUsuario == usuarioId);
+
+            if (usuario == null)
+                return new List<TicketDTO>();
+
+            IQueryable<Tickets> query = _context.Tickets;
+
+            // Switch tradicional con valores de BD
+            switch (usuario.IdRol)
+            {
+                case 1: // Administrador
+                case 3: // Soporte/Técnico
+                        // No aplicar filtro - ven todos los tickets
+                    break;
+                case 2: // Usuario normal
+                default:
+                    // Filtrar solo tickets del usuario
+                    query = query.Where(t => t.UsuarioSolicitante == usuarioId);
+                    break;
+            }
+
+            var tickets = await query.ToListAsync();
+            return _mapper.Map<ICollection<TicketDTO>>(tickets);
         }
     }
-}
+    }
+
 

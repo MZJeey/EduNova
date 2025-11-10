@@ -87,9 +87,10 @@ namespace EduNova.Infraestructure.Repository.Implementations
             return tickets;
         }
 
-        public Task UpdateAsync(Tickets entity)
+        public  async Task UpdateAsync(Tickets tickets)
         {
-            throw new NotImplementedException();
+            _context.Set<Tickets>().Update(tickets);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateTicketStatusAsync(int ticketId, string nuevoEstado)

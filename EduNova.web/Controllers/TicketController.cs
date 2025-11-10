@@ -3,6 +3,7 @@ using EduNova.Application.Services.Implementations;
 using EduNova.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace EduNova.web.Controllers
@@ -22,14 +23,20 @@ namespace EduNova.web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var tickets = await _serviceTickets.GetAllAsync();
+            //var tickets = await _serviceTickets.GetAllAsync();
+            //return View(tickets);
+
+
+            var tickets = await _serviceTickets.GetByUserAsync(6); // Reemplaza 3 con el ID del usuario actual
             return View(tickets);
         }
         public async Task<IActionResult> Details(int id)
         {
             var ticket = await _serviceTickets.FindByIdAsync(id);
             if (ticket == null)
-            {
+
+            { 
+              
                 return NotFound();
             }
             return View(ticket);
@@ -50,7 +57,22 @@ namespace EduNova.web.Controllers
             }
             return View("UpdateEstado",ticket);
         }
-  
+
+        public async Task<IActionResult> update(int id)
+        {
+            var ticket = await _serviceTickets.FindByIdAsync(id);
+
+            await CargarCategorias();
+            await cargarEtiquetas();
+            if (ticket == null)
+            {
+
+                return NotFound();
+            }
+           
+            return View("update",ticket);
+        }
+
         public async Task<IActionResult> Create()
         {
             await CargarCategorias();
@@ -72,7 +94,7 @@ namespace EduNova.web.Controllers
                 Value = e.IdEtiqueta.ToString(),
                 Text = e.Nombre,
                 IdCategoria = e.IdCategoria,
-                NombreCategoria = e.NombreCategoria // Asegúrate que esta propiedad esté poblada
+                NombreCategoria = e.NombreCategoria 
             }).ToList();
 
             ViewBag.Etiquetas = etiquetasList;
@@ -84,7 +106,8 @@ namespace EduNova.web.Controllers
             await CargarCategorias();
             ticket.FechaCreacion = DateTime.Now;
             ticket.Estado = "Pendiente";
-            ticket.UsuarioSolicitante = 3; // o el usuario autenticado
+            ticket.UsuarioSolicitante = 3;
+            ticket.IdRol = 3;
 
             if (ModelState.IsValid)
             {
@@ -106,6 +129,60 @@ namespace EduNova.web.Controllers
             return View(ticket);
         }
 
+        [HttpPost]
+     
+        public async Task<IActionResult> update(int id, TicketDTO ticketDTO)
+        {
+            if (id != ticketDTO.IdTicket)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                await CargarCategorias();
+                await cargarEtiquetas();
+                return View(ticketDTO);
+            }
+
+            //try
+            //{
+                // Asegurar que todos los campos requeridos estén presentes
+                var existingTicket = await _serviceTickets.FindByIdAsync(id);
+                if (existingTicket == null)
+                    return NotFound();
+
+                // Mapear propiedades importantes que podrían faltar
+                ticketDTO.FechaCreacion = existingTicket.FechaCreacion; // Mantener la fecha original
+            ticketDTO.UsuarioSolicitante = 3;
+
+                ticketDTO.IdRol = 3;
+
+                await _serviceTickets.UpdateAsync(id, ticketDTO);
+
+                TempData["SuccessMessage"] = $"Se ha actualizado el Ticket {id} correctamente.";
+                return RedirectToAction(nameof(Index));
+            //}
+            //catch (DbUpdateConcurrencyException ex)
+            //{
+            //    if (await _serviceTickets.FindByIdAsync(id) == null)
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError("", "El ticket fue modificado por otro usuario. Por favor, recarga la página e intenta nuevamente.");
+            //        await CargarCategorias();
+            //        await cargarEtiquetas();
+            //        return View(ticketDTO);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ModelState.AddModelError("", $"Error al actualizar el ticket: {ex.Message}");
+            //    await CargarCategorias();
+            //    await cargarEtiquetas();
+            //    return View(ticketDTO);
+            //}
+        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateEstado(int IdTicket, string Estado)

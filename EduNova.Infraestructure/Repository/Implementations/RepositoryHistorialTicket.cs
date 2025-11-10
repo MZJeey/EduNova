@@ -30,7 +30,7 @@ namespace EduNova.Infraestructure.Repository.Implementations
         public async Task<TicketHistorial> FindByIdAsync(int id)
         {
            var @object = await _context.Set<TicketHistorial>()
-                                      .FirstOrDefaultAsync(e => e.IdHistorial == id);
+                                      .FirstOrDefaultAsync(e => e.IdTicket == id);
             return @object;
         }
 

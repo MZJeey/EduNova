@@ -22,7 +22,7 @@ namespace EduNova.Application.DTOs
         public string? valoracion { get; set; }
         public int UsuarioSolicitante { get; set; }
         public int IdCategoria { get; set; }
-        
+        public int IdRol { get; set; }
         public string? NombreCategoria { get; set; }
         public string? NombreSla { get; set; }
         public string? NombreSolicitante { get; set; }
@@ -32,7 +32,7 @@ namespace EduNova.Application.DTOs
 
         [Display(Name = "Imágenes del tickets")]
         public List<IFormFile>? ImagenesArchivo { get; set; } // Nombre corregido
-
+        public List<HistorialTicketDTO>? HistorialTickets { get; set; }
         public double HorasTranscurridas
         {
             get
