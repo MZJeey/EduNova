@@ -1,0 +1,133 @@
+﻿@model EduNova.Application.DTOs.EditarCategoriaDTO
+@{
+    ViewData["Title"] = "Editar Categoría";
+}
+
+<h3 class="mb-3">Editar Categoría</h3>
+<hr />
+
+<div class="row">
+    <div class="col-lg-7">
+        <form asp-action="Edit" asp-route-id="@Model.IdCategoria" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="IdCategoria" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Estado (opcional) -->
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Estado" id="chkEstado" />
+                <label class="form-check-label" for="chkEstado">Activo</label>
+            </div>
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label">Nombre de la categoría</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label">Descripción</label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <!-- SLA (lista precargada) -->
+            <div class="mb-3">
+                <label class="form-label">SLA (predefinido)</label>
+                <select asp-for="IdSla" class="form-select" id="ddlSla">
+                    <option value="">-- Seleccione un SLA --</option>
+                    @foreach (var s in (List<(int Id, string Nombre, int Tr, int Tres)>)ViewBag.Slas)
+                    {
+                        <option value="@s.Id" data-tr="@s.Tr" data-tres="@s.Tres">
+                            @s.Nombre (Resp: @s.Tr min / Res: @s.Tres min)
+                        </option>
+                    }
+                </select>
+                <div class="form-text" id="slaInfo">Seleccione un SLA o ingrese tiempos manuales.</div>
+            </div>
+
+            <!-- SLA manual (si no se elige uno) -->
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="TiempoRespuesta" class="form-label">Tiempo de respuesta (min)</label>
+                    <input asp-for="TiempoRespuesta" class="form-control" type="number" min="1" id="txtTR" />
+                    <span asp-validation-for="TiempoRespuesta" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="TiempoResolucion" class="form-label">Tiempo de resolución (min)</label>
+                    <input asp-for="TiempoResolucion" class="form-control" type="number" min="1" id="txtTRes" />
+                    <span asp-validation-for="TiempoResolucion" class="text-danger"></span>
+                </div>
+            </div>
+            <small class="text-muted d-block mb-3">
+                Si selecciona un SLA, los campos de tiempos manuales se deshabilitan. Sin SLA: <b>respuesta &gt; 0</b> y <b>resolución &gt; respuesta</b>.
+            </small>
+
+            <!-- Etiquetas (multi-select) -->
+            <div class="mb-3">
+                <label class="form-label">Etiquetas asociadas</label>
+                <select asp-for="EtiquetaIds" class="form-select" multiple size="6">
+                    @foreach (var e in (List<(int Id, string Nombre)>)ViewBag.Etiquetas)
+                    {
+                        <option value="@e.Id">@e.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="EtiquetaIds" class="text-danger"></span>
+            </div>
+
+            <!-- Especialidades (multi-select) -->
+            <div class="mb-4">
+                <label class="form-label">Especialidades</label>
+                <select asp-for="EspecialidadIds" class="form-select" multiple size="6">
+                    @foreach (var es in (List<(int Id, string Nombre)>)ViewBag.Especialidades)
+                    {
+                        <option value="@es.Id">@es.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="EspecialidadIds" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-2"></i>Guardar cambios
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Volver</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const ddlSla = document.getElementById('ddlSla');
+        const slaInfo = document.getElementById('slaInfo');
+        const txtTR = document.getElementById('txtTR');
+        const txtTRes = document.getElementById('txtTRes');
+
+        function syncSlaUi() {
+            const val = ddlSla.value;
+            if (val) {
+                const opt = ddlSla.options[ddlSla.selectedIndex];
+                const tr = opt.getAttribute('data-tr');
+                const tres = opt.getAttribute('data-tres');
+                slaInfo.innerText = `Respuesta: ${tr} min / Resolución: ${tres} min (SLA seleccionado)`;
+                txtTR.value = '';
+                txtTRes.value = '';
+                txtTR.setAttribute('disabled', 'disabled');
+                txtTRes.setAttribute('disabled', 'disabled');
+            } else {
+                slaInfo.innerText = 'Sin SLA seleccionado: ingrese tiempos manuales.';
+                txtTR.removeAttribute('disabled');
+                txtTRes.removeAttribute('disabled');
+            }
+        }
+
+        // Inicializar seleccionada según el modelo y sincronizar UI
+        document.addEventListener('DOMContentLoaded', syncSlaUi);
+        ddlSla.addEventListener('change', syncSlaUi);
+    </script>
+}
