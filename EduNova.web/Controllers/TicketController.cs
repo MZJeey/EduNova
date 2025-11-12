@@ -1,6 +1,7 @@
 ﻿using EduNova.Application.DTOs;
 using EduNova.Application.Services.Implementations;
 using EduNova.Application.Services.Interfaces;
+using EduNova.Infraestructure.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -119,11 +120,12 @@ namespace EduNova.web.Controllers
                    ModelState.AddModelError("", "Error al subir imágenes. Por favor, inténtelo de nuevo.");
                 }
 
-                ViewBag.NotificationMessage = Util.SweetAlertHelper.Mensaje(
-                    "Éxito",
-                    "Se ha creado el Ticket " + ticketId + ".",
-                    Util.SweetAlertMessageType.success
-                );
+                TempData["NotificationMessage"] = Util.SweetAlertHelper.Mensaje(
+              "Éxito",
+              "Se ha creado el Ticket " + ticketId + ".",
+              Util.SweetAlertMessageType.success
+          );
+
                 return RedirectToAction(nameof(Index));
             }
             return View(ticket);
@@ -151,15 +153,21 @@ namespace EduNova.web.Controllers
                     return NotFound();
 
                 // Mapear propiedades importantes que podrían faltar
-                ticketDTO.FechaCreacion = existingTicket.FechaCreacion; // Mantener la fecha original
+                ticketDTO.FechaCreacion = existingTicket.FechaCreacion; 
             ticketDTO.UsuarioSolicitante = 3;
 
                 ticketDTO.IdRol = 3;
 
                 await _serviceTickets.UpdateAsync(id, ticketDTO);
 
-                TempData["SuccessMessage"] = $"Se ha actualizado el Ticket {id} correctamente.";
-                return RedirectToAction(nameof(Index));
+            // Usar TempData en lugar de ViewBag para redirecciones
+            TempData["NotificationMessage"] = Util.SweetAlertHelper.Mensaje(
+                "Éxito",
+                "Se ha actualizado el Ticket " + id + ".",
+                Util.SweetAlertMessageType.success
+            );
+
+            return RedirectToAction(nameof(Index));
             //}
             //catch (DbUpdateConcurrencyException ex)
             //{
@@ -196,6 +204,8 @@ namespace EduNova.web.Controllers
                 }
 
                 await _serviceTickets.UpdateTicketStatusAsync(IdTicket, Estado);
+
+
 
                 TempData["Success"] = "Estado del ticket actualizado correctamente";
                 return RedirectToAction("Asignaciones");

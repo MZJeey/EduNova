@@ -13,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -231,4 +232,13 @@
         }
     }
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["NotificationMessage"] != null)
+{
+    <script>
+        @Html.Raw(TempData["NotificationMessage"])
+    </script>
+}
 </html>
