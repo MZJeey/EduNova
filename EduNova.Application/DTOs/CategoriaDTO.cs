@@ -12,9 +12,9 @@ namespace EduNova.Application.DTOs
         public string Nombre { get; set; } = null!;
         public string? Descripcion { get; set; }
 
-        public int? IdSla { get; set; }  
-        
-    
-      
+        public int? IdSla { get; set; }
+        public string? NombreSLA { get; set; }
+
+
     }
 }

@@ -84,54 +84,73 @@ namespace EduNova.Application.Services.Implementations
             return collection;
         }
 
-        public async Task<UsuarioDTO> LoginAsync(string correo, string password)
-        {
-            try
-            {
-                _logger.LogInformation($"Intentando login para: {correo}");
+        //public async Task<UsuarioDTO> LoginAsync(string correo, string password)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation($"Intentando login para: {correo}");
 
-                // Buscar usuario por email
-                var usuario = await _context.Set<Usuario>()
-                                          .FirstOrDefaultAsync(u => u.Correo == correo);
+        //        // Buscar usuario por email
+        //        var usuario = await _context.Set<Usuario>()
+        //                                  .FirstOrDefaultAsync(u => u.Correo == correo);
 
-                if (usuario == null)
-                {
-                    _logger.LogWarning($"Usuario no encontrado: {correo}");
-                    return null;
-                }
+        //        if (usuario == null)
+        //        {
+        //            _logger.LogWarning($"Usuario no encontrado: {correo}");
+        //            return null;
+        //        }
 
-                // Encriptar la contraseña para comparar
-                string secret = _appConfig.Crypto.Secret;
-                string passwordEncrypted = Cryptography.Encrypt(password, secret);
+        //        // Encriptar la contraseña para comparar
+        //        string secret = _appConfig.Crypto.Secret;
+        //        string passwordEncrypted = Cryptography.Encrypt(password, secret);
 
-                if (usuario.Clave != passwordEncrypted)
-                {
-                    _logger.LogWarning($"Contraseña incorrecta para: {correo}");
-                    return null;
-                }
+        //        if (usuario.Clave != passwordEncrypted)
+        //        {
+        //            _logger.LogWarning($"Contraseña incorrecta para: {correo}");
+        //            return null;
+        //        }
 
-                //// Actualizar último inicio de sesión
-                //usuario.UltimoInicioSesion = DateTime.UtcNow;
-                //await _context.SaveChangesAsync();
+        //        //// Actualizar último inicio de sesión
+        //        //usuario.UltimoInicioSesion = DateTime.UtcNow;
+        //        //await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"Login exitoso para: {correo}");
+        //        _logger.LogInformation($"Login exitoso para: {correo}");
 
-                return new UsuarioDTO
-                {
-                    IdUsuario = usuario.IdUsuario,
-                    Correo = usuario.Correo,
-                    idRol = usuario.IdRol,
-                    Clave = usuario.Clave,
-                    Nombre = usuario.Nombre
+        //        return new UsuarioDTO
+        //        {
+        //            IdUsuario = usuario.IdUsuario,
+        //            Correo = usuario.Correo,
+        //            idRol = usuario.IdRol,
+        //            Clave = usuario.Clave,
+        //            Nombre = usuario.Nombre
                    
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error durante login para: {correo}");
-                return null;
-            }
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Error durante login para: {correo}");
+        //        return null;
+        //    }
+        //}
+         public async Task<UsuarioDTO> LoginAsync(string id, string password)
+    {
+        UsuarioDTO usuarioDTO = null!;
+
+        // Llave secreta
+        string secret = _options.Value.Crypto.Secret;
+        // Password encriptado
+        string passwordEncrypted = Cryptography.Encrypt(password, secret);
+
+        var @object = await _repository.LoginAsync(id, passwordEncrypted);
+
+        if (@object != null)
+        {
+            usuarioDTO = _mapper.Map<UsuarioDTO>(@object);
         }
+
+        return usuarioDTO;
+    }
+
 
         public Task<string> RegisterAsync(UsuarioDTO dto)
         {
@@ -139,12 +158,39 @@ namespace EduNova.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task UpdateAsync(int id, UsuarioDTO dto)
-        {
-            var @object = await _repository.FindByIdAsync(id);
-            //       source, destination
-            _mapper.Map(dto, @object!);
-            await _repository.UpdateAsync();
-        }
+        //public async Task UpdateAsync(int id, UsuarioDTO dto)
+        //{
+        //    var @object = await _repository.FindByIdAsync(id);
+        //    //       source, destination
+        //    _mapper.Map(dto, @object!);
+        //    await _repository.UpdateAsync();
+        //}
+
+public async Task UpdateAsync(int id, UsuarioDTO dto)
+{
+    var entity = await _repository.FindByIdAsync(id);
+    if (entity == null)
+        throw new Exception("Usuario no encontrado");
+
+    // Si la vista NO envía una nueva clave, se mantiene la que ya tiene el usuario
+    if (string.IsNullOrWhiteSpace(dto.Clave))
+    {
+        dto.Clave = entity.Clave; // ya está encriptada en BD
+    }
+    else
+    {
+        // Si sí viene algo en dto.Clave → lo encriptamos
+        string secret = _options.Value.Crypto.Secret;
+        dto.Clave = Cryptography.Encrypt(dto.Clave, secret);
+    }
+
+    // Mapear DTO → entidad existente
+    _mapper.Map(dto, entity);
+
+    await _repository.UpdateAsync();
+}
+
+
+
     }
 }

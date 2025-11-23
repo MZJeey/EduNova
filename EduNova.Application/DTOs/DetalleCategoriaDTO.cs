@@ -14,6 +14,7 @@ namespace EduNova.Application.DTOs
         public bool Estado { get; set; }
         public string? Descripcion { get; set; }
         public int? IdSla { get; set; }
+
         public string? NombreSLA { get; set; }
         public int? TiempoRespuesta { get; set; }
         public int? TiempoResolucion { get; set; }

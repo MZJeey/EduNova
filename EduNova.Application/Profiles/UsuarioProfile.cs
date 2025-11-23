@@ -17,7 +17,9 @@ namespace EduNova.Application.Profiles
         public UsuarioProfile()
         {
             // Mapeos de AutoMapper
-            CreateMap<UsuarioDTO, Usuario>().ReverseMap();
+            CreateMap<UsuarioDTO, Usuario>().ReverseMap()
+           .ForMember(dest => dest.idRol, opt => opt.MapFrom(src => src.IdRol)); ;
+
         }
 
 

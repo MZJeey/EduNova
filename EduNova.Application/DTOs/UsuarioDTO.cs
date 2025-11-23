@@ -17,6 +17,7 @@ namespace EduNova.Application.DTOs
         public int idRol { get; set; }
         public bool Estado { get; set; }
         public string RolNombre => ((RolUsuario)idRol).ToString();
+        public virtual RolDTO IdRolNavigation { get; set; } = null!;
     }
     public enum RolUsuario
     {

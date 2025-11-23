@@ -46,7 +46,7 @@ public partial class eduNovaContext : DbContext
     {
         modelBuilder.Entity<Categoria>(entity =>
         {
-            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__8A3D240C1C0C8981");
+            entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__8A3D240C81004451");
 
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
             entity.Property(e => e.Descripcion)
@@ -87,7 +87,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Curso>(entity =>
         {
-            entity.HasKey(e => e.IdCurso).HasName("PK__Curso__8551ED0544E3282B");
+            entity.HasKey(e => e.IdCurso).HasName("PK__Curso__8551ED059932B9CB");
 
             entity.Property(e => e.IdCurso).HasColumnName("idCurso");
             entity.Property(e => e.Descripcion)
@@ -109,7 +109,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Especialidades>(entity =>
         {
-            entity.HasKey(e => e.Idespecialidad).HasName("PK__Especial__2C0C636B28ED2B09");
+            entity.HasKey(e => e.Idespecialidad).HasName("PK__Especial__2C0C636B9945C430");
 
             entity.Property(e => e.Activo)
                 .HasDefaultValue(true)
@@ -122,12 +122,12 @@ public partial class eduNovaContext : DbContext
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Especialidades)
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Especiali__IdCat__74AE54BC");
+                .HasConstraintName("FK__Especiali__IdCat__0A9D95DB");
         });
 
         modelBuilder.Entity<Estudiante>(entity =>
         {
-            entity.HasKey(e => e.IdEstudiante).HasName("PK__Estudian__AEFFDBC50B56D6E5");
+            entity.HasKey(e => e.IdEstudiante).HasName("PK__Estudian__AEFFDBC5D5249DDE");
 
             entity.Property(e => e.IdEstudiante).HasColumnName("idEstudiante");
             entity.Property(e => e.Apellidos)
@@ -147,7 +147,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Etiqueta>(entity =>
         {
-            entity.HasKey(e => e.IdEtiqueta).HasName("PK__Etiqueta__3C1526A771FA8A1C");
+            entity.HasKey(e => e.IdEtiqueta).HasName("PK__Etiqueta__3C1526A7DDCC4BFE");
 
             entity.Property(e => e.IdEtiqueta).HasColumnName("idEtiqueta");
             entity.Property(e => e.Descripcion)
@@ -167,7 +167,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Imagenes>(entity =>
         {
-            entity.HasKey(e => e.IdImagen).HasName("PK__Imagenes__B42D8F2AA519485C");
+            entity.HasKey(e => e.IdImagen).HasName("PK__Imagenes__B42D8F2A211907EF");
 
             entity.Property(e => e.Imagen)
                 .HasMaxLength(200)
@@ -175,12 +175,12 @@ public partial class eduNovaContext : DbContext
 
             entity.HasOne(d => d.IdTicketNavigation).WithMany(p => p.Imagenes)
                 .HasForeignKey(d => d.IdTicket)
-                .HasConstraintName("FK__Imagenes__IdTick__7C4F7684");
+                .HasConstraintName("FK__Imagenes__IdTick__0B91BA14");
         });
 
         modelBuilder.Entity<Matricula>(entity =>
         {
-            entity.HasKey(e => e.IdMatricula).HasName("PK__Matricul__72013C998E4A9691");
+            entity.HasKey(e => e.IdMatricula).HasName("PK__Matricul__72013C99AA17548F");
 
             entity.Property(e => e.IdMatricula).HasColumnName("idMatricula");
             entity.Property(e => e.Estado)
@@ -206,7 +206,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Nota>(entity =>
         {
-            entity.HasKey(e => e.IdNota).HasName("PK__Nota__AD5F462EE22805DB");
+            entity.HasKey(e => e.IdNota).HasName("PK__Nota__AD5F462E0A5C92CC");
 
             entity.Property(e => e.IdNota).HasColumnName("idNota");
             entity.Property(e => e.Fecha)
@@ -229,7 +229,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Planeamiento>(entity =>
         {
-            entity.HasKey(e => e.IdPlaneamiento).HasName("PK__Planeami__307A10437918E373");
+            entity.HasKey(e => e.IdPlaneamiento).HasName("PK__Planeami__307A104365079946");
 
             entity.Property(e => e.IdPlaneamiento).HasColumnName("idPlaneamiento");
             entity.Property(e => e.Actividad)
@@ -255,7 +255,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.IdRol).HasName("PK__Rol__3C872F76185D5F59");
+            entity.HasKey(e => e.IdRol).HasName("PK__Rol__3C872F769F57CBA2");
 
             entity.Property(e => e.IdRol).HasColumnName("idRol");
             entity.Property(e => e.Descripcion)
@@ -265,7 +265,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Seguimiento>(entity =>
         {
-            entity.HasKey(e => e.IdSeguimiento).HasName("PK__Seguimie__1B37049C4EA9E64A");
+            entity.HasKey(e => e.IdSeguimiento).HasName("PK__Seguimie__1B37049CAC827E2B");
 
             entity.Property(e => e.IdSeguimiento).HasColumnName("idSeguimiento");
             entity.Property(e => e.Descripcion)
@@ -291,13 +291,14 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Sla>(entity =>
         {
-            entity.HasKey(e => e.IdSla).HasName("PK__SLA__024EBE7A29E9970E");
+            entity.HasKey(e => e.IdSla).HasName("PK__SLA__024EBE7A027863EB");
 
             entity.ToTable("SLA");
 
             entity.Property(e => e.IdSla).HasColumnName("idSLA");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(50)
+                .HasDefaultValue("")
                 .HasColumnName("descripcion");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
@@ -308,7 +309,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<TicketHistorial>(entity =>
         {
-            entity.HasKey(e => e.IdHistorial).HasName("PK__TicketHi__9CC7DBB4709A279A");
+            entity.HasKey(e => e.IdHistorial).HasName("PK__TicketHi__9CC7DBB48325F3D0");
 
             entity.Property(e => e.EstadoTickets)
                 .HasMaxLength(100)
@@ -317,16 +318,16 @@ public partial class eduNovaContext : DbContext
 
             entity.HasOne(d => d.IdTicketNavigation).WithMany(p => p.TicketHistorial)
                 .HasForeignKey(d => d.IdTicket)
-                .HasConstraintName("FK__TicketHis__IdTic__787EE5A0");
+                .HasConstraintName("FK__TicketHis__IdTic__0C85DE4D");
 
             entity.HasOne(d => d.IdUsuarioCambioNavigation).WithMany(p => p.TicketHistorial)
                 .HasForeignKey(d => d.IdUsuarioCambio)
-                .HasConstraintName("FK__TicketHis__IdUsu__797309D9");
+                .HasConstraintName("FK__TicketHis__IdUsu__0D7A0286");
         });
 
         modelBuilder.Entity<Tickets>(entity =>
         {
-            entity.HasKey(e => e.IdTicket).HasName("PK__Tickets__22B1456F807A683C");
+            entity.HasKey(e => e.IdTicket).HasName("PK__Tickets__22B1456F15516A41");
 
             entity.Property(e => e.IdTicket).HasColumnName("idTicket");
             entity.Property(e => e.Descripcion)
@@ -343,6 +344,7 @@ public partial class eduNovaContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaCreacion");
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
+            entity.Property(e => e.IdSla).HasColumnName("idSLA");
             entity.Property(e => e.Prioridad)
                 .HasMaxLength(50)
                 .HasColumnName("prioridad");
@@ -359,6 +361,15 @@ public partial class eduNovaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tickets_Categoria");
 
+            entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.IdRol)
+                .HasConstraintName("FK__Tickets__IdRol__151B244E");
+
+            entity.HasOne(d => d.IdSlaNavigation).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.IdSla)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickets_SLA");
+
             entity.HasOne(d => d.UsuarioSolicitanteNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.UsuarioSolicitante)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -367,7 +378,7 @@ public partial class eduNovaContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A67229E12E");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A6EFF1A1EE");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Apellidos)

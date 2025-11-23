@@ -7,6 +7,7 @@ using EduNova.Infraestructure.Data;
 using EduNova.Infraestructure.Repository.Implementations;
 using EduNova.Infraestructure.Repository.Interfaces;
 using EduNova.web.Middleware;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
@@ -37,6 +38,20 @@ builder.Services.AddTransient<IserviceCategoria, ServiceCategoria>();
 builder.Services.AddTransient<IServiceTickets, ServiceTickets>();
 builder.Services.AddTransient<IServiceHistorialTicket, ServiceHistorialTicket>();
 builder.Services.AddTransient<IServiceImagen, ServiceImagen>();
+
+//AUTENTICACIÓN CON COOKIES (igual que el profe)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index";         
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.AccessDeniedPath = "/Login/Forbidden/";
+    });
+
+
+
+
+
 //builder.Services.AddTransient<IServiceDetalleCategoria, ServiceDetalleCategoria>();
 //Configuracion AutoMapper
 builder.Services.AddAutoMapper(config =>
@@ -46,6 +61,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<TicketProfile>();
     config.AddProfile<HistorialTicketProfile>();
     config.AddProfile<ImagenProfile>();
+    config.AddProfile<RolProfile>();
     //config.AddProfile<DetalleCategoriaProfile>();
 });
 
@@ -91,7 +107,7 @@ var app = builder.Build();
 
 
 //app.UseRequestLocalization();
-var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+//var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 
 
 
@@ -133,13 +149,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();  
 app.UseAuthorization();
 
-
+// Antiforgery
 app.UseAntiforgery();
 
+// Ruta por defecto: que abra el login
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

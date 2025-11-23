@@ -56,11 +56,13 @@ namespace EduNova.Infraestructure.Repository.Implementations
             return collection;
         }
 
-        public async Task<Usuario?> LoginAsync(string correo, string clave)
+        public async Task<Usuario> LoginAsync(string id, string password)
         {
-           var usuario = await _context.Set<Usuario>()
-                                       .FirstOrDefaultAsync(u => u.Correo == correo && u.Clave == clave);
-            return usuario;
+            var @object = await _context.Set<Usuario>()
+                                        .Include(b => b.IdRolNavigation)
+                                        .Where(p => p.Correo == id && p.Clave == password)
+                                        .FirstOrDefaultAsync();
+            return @object!;
         }
 
         //actualizar usuario

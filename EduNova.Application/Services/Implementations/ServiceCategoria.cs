@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace EduNova.Application.Services.Implementations
 {
-   public class ServiceCategoria:IserviceCategoria
+    public class ServiceCategoria : IserviceCategoria
     {
         private readonly IRepositoyCategoria _repository;
         private readonly IMapper _mapper;
         private readonly eduNovaContext _context;
-        public ServiceCategoria(IRepositoyCategoria repositoryCategoria, IMapper mapper , eduNovaContext eduNovaContext)
+        public ServiceCategoria(IRepositoyCategoria repositoryCategoria, IMapper mapper, eduNovaContext eduNovaContext)
         {
             _repository = repositoryCategoria;
             _mapper = mapper;
@@ -170,12 +170,31 @@ namespace EduNova.Application.Services.Implementations
             return categoria!;
         }
 
+        //public async Task<ICollection<CategoriaDTO>> ListAsync()
+        //{
+        //    var collection = await _repository.ListAsync();
+        //    var listaMapeada = _mapper.Map<List<CategoriaDTO>>(collection);
+        //    return listaMapeada; // List<T> implementa ICollection<T>
+        //}
         public async Task<ICollection<CategoriaDTO>> ListAsync()
         {
-            var collection = await _repository.ListAsync();
-            var listaMapeada = _mapper.Map<List<CategoriaDTO>>(collection);
-            return listaMapeada; // List<T> implementa ICollection<T>
+            var categorias = await _context.Categoria
+                .Include(c => c.IdSlaNavigation)
+                .Select(c => new CategoriaDTO
+                {
+                    IdCategoria = c.IdCategoria,
+                    Nombre = c.Nombre,
+                    Descripcion = c.Descripcion,
+                    IdSla = c.IdSla,
+                    NombreSLA = c.IdSlaNavigation != null
+                        ? c.IdSlaNavigation.Nombre
+                        : "Sin SLA"
+                })
+                .ToListAsync();
+
+            return categorias; // List<T> implementa ICollection<T>
         }
+
 
 
         public async Task<EditarCategoriaDTO> GetEditAsync(int id)
@@ -194,7 +213,7 @@ namespace EduNova.Application.Services.Implementations
                 Nombre = c.Nombre,
                 Descripcion = c.Descripcion,
                 Estado = c.Estado,
-                IdSla = c.IdSla, // si viene null, la vista habilita tiempos manuales
+                IdSla = c.IdSla, 
 
                 EtiquetaIds = c.IdEtiqueta?.Select(e => e.IdEtiqueta).ToList() ?? new(),
                 EspecialidadIds = c.Especialidades?.Select(e => e.Idespecialidad).ToList() ?? new()

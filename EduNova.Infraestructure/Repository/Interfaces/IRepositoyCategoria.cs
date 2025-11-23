@@ -13,6 +13,7 @@ namespace EduNova.Infraestructure.Repository.Implementations
 
         Task<string> AddAsync(Categoria entity);
         Task DeleteAsync(int id);
+      
         Task<Categoria?> FindByIdAsync(int id);
         Task UpdateAsync();
     }
