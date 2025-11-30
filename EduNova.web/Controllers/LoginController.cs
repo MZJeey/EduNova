@@ -31,6 +31,16 @@ namespace EduNova.web.Controllers
             return View();
         }
 
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            // Cerrar sesión (eliminar cookie de autenticación)
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Redirigir al login
+            return RedirectToAction("Index", "Login");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

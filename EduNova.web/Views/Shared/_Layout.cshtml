@@ -215,7 +215,7 @@
                                 <button class="btn btn-outline-secondary btn-sm">
                                     <i class="bi bi-bell"></i>
                                 </button>
-                                <div class="dropdown">
+                             @*    <div class="dropdown">
                                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                         <i class="bi bi-person-circle me-1"></i>Admin
                                     </button>
@@ -225,7 +225,36 @@
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
                                     </ul>
+                                </div> *@
+
+                                <div class="dropdown">
+                                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img class="rounded-circle me-2"
+                                             src="~/images/eduNova.jpg"
+                                             alt="@User.Identity!.Name"
+                                             width="32" height="32" />
+                                        <span class="fw-semibold text-dark">@User.Identity!.Name</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser1">
+                                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                        <li><a class="dropdown-item" href="#">Configuración</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger"
+                                               asp-controller="Login"
+                                               asp-action="Logout">
+                                                Cerrar Sesión
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
+
+
+
+
+
                             </div>
                         </div>
                     </div>
