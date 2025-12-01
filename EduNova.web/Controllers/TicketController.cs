@@ -67,7 +67,7 @@ namespace EduNova.web.Controllers
             await CargarCategorias();
             ticket.FechaCreacion = DateTime.Now;
             ticket.Estado = "Abierto";
-            ticket.UsuarioSolicitante = 3; // o el usuario autenticado
+            ticket.UsuarioSolicitante = 1; // o el usuario autenticado
 
             if (ModelState.IsValid)
             {
