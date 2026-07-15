@@ -31,18 +31,18 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 # ✨ Funcionalidades
 
-- 🔐 Inicio de sesión seguro.
-- 👥 Gestión completa de usuarios.
-- 🏷 Administración de categorías.
-- 🎫 Registro y seguimiento de tickets.
-- 📋 Asignación de tickets.
-- 📊 Dashboard con estadísticas.
-- 📄 Exportación de reportes en PDF.
-- 📗 Exportación de reportes en Excel.
-- 🌎 Cambio dinámico entre Español e Inglés.
-- 🔒 Gestión de roles.
-- ⭐ Valoración de tickets.
-- ⏱ Seguimiento mediante SLA.
+-  Inicio de sesión seguro.
+-  Gestión completa de usuarios.
+-  Administración de categorías.
+-  Registro y seguimiento de tickets.
+-  Asignación de tickets.
+-  Dashboard con estadísticas.
+-  Exportación de reportes en PDF.
+-  Exportación de reportes en Excel.
+-  Cambio dinámico entre Español e Inglés.
+-  Gestión de roles.
+-  Valoración de tickets.
+-  Seguimiento mediante SLA.
 
 ---
 
