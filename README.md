@@ -21,7 +21,7 @@ Sistema desarrollado con ASP.NET Core para optimizar la gestión de tickets, inc
 
 ---
 
-# 📖 Descripción
+#  Descripción
 
 EduNova es una plataforma web desarrollada como proyecto académico para optimizar la administración y seguimiento de incidencias dentro de instituciones educativas.
 
@@ -29,7 +29,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-# ✨ Funcionalidades
+#  Funcionalidades
 
 -  Inicio de sesión seguro.
 -  Gestión completa de usuarios.
@@ -46,7 +46,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-# 🛠 Tecnologías utilizadas
+#  Tecnologías utilizadas
 
 | Backend | Frontend | Base de Datos | Herramientas |
 |----------|----------|---------------|--------------|
@@ -57,7 +57,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-# 🏗 Arquitectura
+#  Arquitectura
 
 ```text
                   Usuario
@@ -77,9 +77,9 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-# 📷 Vista previa del sistema
+#  Vista previa del sistema
 
-## 🔐 Inicio de sesión
+##  Inicio de sesión
 
 <p align="center">
 <img src="assets/login.png" width="900">
@@ -87,7 +87,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 🏠 Dashboard principal
+##  Dashboard principal
 
 <p align="center">
 <img src="assets/dashboard.png" width="900">
@@ -95,7 +95,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 👥 Gestión de Usuarios
+##  Gestión de Usuarios
 
 <p align="center">
 <img src="assets/Usuarios.png" width="900">
@@ -103,7 +103,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 🏷 Gestión de Categorías
+##  Gestión de Categorías
 
 <p align="center">
 <img src="assets/Categorias.png" width="900">
@@ -111,7 +111,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 🎫 Gestión de Tickets
+##  Gestión de Tickets
 
 <p align="center">
 <img src="assets/tickets.png" width="900">
@@ -119,7 +119,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 📋 Asignación de Tickets
+##  Asignación de Tickets
 
 <p align="center">
 <img src="assets/asignaciones.png" width="900">
@@ -127,7 +127,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-## 📊 Dashboard de Reportes
+##  Dashboard de Reportes
 
 <p align="center">
 <img src="assets/reportes.png" width="900">
@@ -135,7 +135,7 @@ La aplicación permite administrar usuarios, categorías, tickets, asignaciones 
 
 ---
 
-# 🌎 Internacionalización
+#  Internacionalización
 
 EduNova incorpora soporte para múltiples idiomas, permitiendo cambiar dinámicamente entre Español e Inglés para ofrecer una mejor experiencia de usuario.
 
@@ -145,7 +145,7 @@ EduNova incorpora soporte para múltiples idiomas, permitiendo cambiar dinámica
 
 ---
 
-# 👨‍💻 Mi participación
+#  Mi participación
 
 Participé activamente como desarrollador **Full Stack** durante el desarrollo del proyecto.
 
@@ -176,7 +176,7 @@ EduNova
 
 ---
 
-# ⚙ Instalación
+#  Instalación
 
 ```bash
 git clone https://github.com/TU-USUARIO/EduNova.git
@@ -192,7 +192,7 @@ dotnet run
 
 ---
 
-# 📌 Estado del proyecto
+#  Estado del proyecto
 
 🟢 **Proyecto finalizado**
 
@@ -200,13 +200,13 @@ Desarrollado como parte de la carrera de Ingeniería de Software.
 
 ---
 
-# 👨‍💻 Autores
+#  Autores
 
 - Berny Dávila
 - Jeeyson Martínez 
 
 ---
 
-# 📄 Licencia
+#  Licencia
 
 Proyecto desarrollado con fines académicos.
